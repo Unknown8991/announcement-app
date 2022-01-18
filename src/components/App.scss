@@ -1,0 +1,110 @@
+.App {
+  text-align: center;
+  // background-color: #151516;
+  // background: #151722;
+  background: #1a1a1d;
+  font-family: 'Montserrat', sans-serif;
+  height: 100vh;
+  // thin100 thin100 italic light300 regular400 bold700 black900italic
+}
+
+.login-text{
+  color: #f2f2f7;
+}
+.login-panel{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 350px;
+  width: 350px;
+  color:#f2f2f7 ;
+
+  border-radius: 12px;
+  // background: #151516;
+  // background: #1a1a1d;
+  // box-shadow:  5px 5px 9px #0f0f10,
+  //            -5px -5px 9px #1b1b1c;
+  border-radius: 10px;
+  background: #1a1a1d;
+  box-shadow:  7px 7px 7px #101012,
+             -7px -7px 7px #242428;
+  &__info{
+    display: flex;
+    justify-content: center;
+    &--bold{
+      font-weight: bold;
+      padding-right: 3px;
+    }
+  } 
+
+  &__header{
+    display: flex;
+    justify-content: center;
+    padding-top:8px;
+    font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(to right, #cf184f 0%, #7d0ca0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    &--thin{
+      font-weight: 400;
+      padding-left: 4px;
+    }
+}
+  &__form{
+    display: flex;
+    flex-direction: column;
+    padding-top: 40px;
+  }
+  &__form-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0px;
+  }
+  &__input{
+    // margin: 10px;
+    width: 250px;
+    display: flex;
+    background: #48484a;
+    border: none;
+    color: #f2f2f7;
+    font-size: 14px;
+    border-radius: 10px;
+    // background: #151516;
+    // box-shadow: inset 12px 12px 25px #0f0f10,
+    //             inset -12px -12px 25px #1b1b1c;
+
+    background: #1a1a1d;
+    box-shadow: inset 7px 7px 7px #161619,
+                inset -7px -7px 7px #1e1e21;
+
+    padding:10px 0px 10px 13px;
+    outline: none;
+  }
+  &__text{
+    font-size: 14px;
+    padding-bottom: 4px;
+  }
+  &__accept{
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
+  }
+  &__button{
+    color:#f2f2f7 ;
+    border: none;
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    background: #1a1a1d;
+    box-shadow:  5px 5px 10px #131315,
+             -5px -5px 10px #212125;
+    padding:8px ;
+  }
+}
+
+
