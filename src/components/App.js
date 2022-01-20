@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.scss';
 import LoginPanel from './LoginPanel';
+import UserView from './UserView';
 
 class App extends Component {
 state ={
@@ -37,6 +38,8 @@ checkLogIn = () =>{
     return (
       <div className="App">
         <LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/>
+        {this.state.isCorrectLogin ? <UserView/> : null}
+        
       </div>
     );
   }
