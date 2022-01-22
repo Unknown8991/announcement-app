@@ -9,24 +9,34 @@ state ={
   password: '123qwe',
   loginUser:'',
   passwordUser:'',
-  isCorrectLogin: false,
+  // isCorrectLogin powinien być false (czas developowania true)
+  isCorrectLogin: true,
+  announcementItems:[
+    {id:1, title:'Test1', description: 'testowy testowy testowy', location: 'Warszaw'},
+    {id:2, title:'Test2', description: 'testowy testowy testowy', location: 'Katowice'},
+    {id:3, title:'Test3', description: 'testowy testowy testowy', location: 'Szczecin'},
+    {id:4, title:'Test4', description: 'testowy testowy testowy', location: 'KrakOw'}
+  ]
+
 }
+// Funkcja sprawdzająca inputy
 handleLoginInput = (e)=>{
-  console.log('test')
+
   console.log(e.target.value)
   if(e.target.name === 'login'){
-    console.log('login jest')
+
     this.setState({
       loginUser: e.target.value,
     })
   } 
   if(e.target.name === 'password'){
-    console.log('password jest')
+
     this.setState({
       passwordUser: e.target.value,
     })
   }
 }
+// Funkcja ustawia isCorrectLogin na true jeśli password i login jest poprawny
 checkLogIn = () =>{
   if(this.state.login === this.state.loginUser && this.state.password === this.state.passwordUser){
     this.setState({
@@ -37,8 +47,10 @@ checkLogIn = () =>{
   render() {
     return (
       <div className="App">
-        <LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/>
-        {this.state.isCorrectLogin ? <UserView/> : null}
+        {/* NA CZAS DEVELOPOWANIA USTAWIAM isCorrectLogin na true */}
+        {this.state.isCorrectLogin ? <UserView announcementItems={this.state.announcementItems}/> : <LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/>  }
+        {/* <LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/> */}
+        {/* {this.state.isCorrectLogin ? <UserView/> : null} */}
         
       </div>
     );

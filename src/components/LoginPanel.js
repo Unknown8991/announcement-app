@@ -5,8 +5,8 @@ const LoginPanel = (props) => {
         <>
         <div className='ball'></div>
         <div className='container'>
-          <div className='hp'>
-            <div className='logo-block'>AN</div>
+          <div className='header'>
+            <div className='header-block'>AN</div>
           </div>
         </div>
         <div className='container row-box col-12'>
