@@ -4,19 +4,14 @@ import LoginPanel from './LoginPanel';
 import UserView from './UserView';
 
 class App extends Component {
-state ={
+state = {
   login: 'admin',
   password: '123qwe',
   loginUser:'',
   passwordUser:'',
   // isCorrectLogin powinien być false (czas developowania true)
   isCorrectLogin: true,
-  announcementItems:[
-    {id:1, title:'Test1', description: 'testowy testowy testowy', location: 'Warszaw'},
-    {id:2, title:'Test2', description: 'testowy testowy testowy', location: 'Katowice'},
-    {id:3, title:'Test3', description: 'testowy testowy testowy', location: 'Szczecin'},
-    {id:4, title:'Test4', description: 'testowy testowy testowy', location: 'KrakOw'}
-  ]
+  announcementItems:[]
 
 }
 // Funkcja sprawdzająca inputy
@@ -44,14 +39,39 @@ checkLogIn = () =>{
     })
   }
 }
+componentDidMount () {
+  const API = 'http://localhost:8000/announcements/';
+  fetch(API,{
+    method: 'GET',
+    mode: 'cors'
+  }, true)
+  .then(response => response.json())
+  .then(data =>{
+    console.log(data)
+    this.setState({
+      announcementItems: data
+    })
+  })
+  console.log(this.state.announcementItems)
+  
+  
+  
+  
+
+}
+test =() =>{
+  // console.log(this.state.announcementItems)
+}
   render() {
     return (
       <div className="App">
         {/* NA CZAS DEVELOPOWANIA USTAWIAM isCorrectLogin na true */}
+  
         {this.state.isCorrectLogin ? <UserView announcementItems={this.state.announcementItems}/> : <LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/>  }
         {/* <LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/> */}
         {/* {this.state.isCorrectLogin ? <UserView/> : null} */}
-        
+        {/* dla testów button */}
+        {/* <button onClick={this.test}>dodaj</button> */}
       </div>
     );
   }

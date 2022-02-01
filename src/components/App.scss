@@ -1,15 +1,18 @@
 // color-text #f2f2f7;
 // backgroud  #161616;
 // elements   #1a1a1d;
-
+html{
+  scrollbar-width: thin;
+}
 .App {
   text-align: center;
   // background-color: #151516;
   // background: #151722;
   background: #161616;
   font-family: 'Montserrat', sans-serif;
-  height: 100vh;
+  height: 100%;
   // thin100 thin100 italic light300 regular400 bold700 black900italic
+  
 }
 .header{
   padding-top: 30px;
@@ -166,6 +169,18 @@
 }
 }
 .ball{
+  &--user-view{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: 60%;
+    left: 90%;
+    background: linear-gradient(to right, #c20d44 0%, #ca2e7c 100%);
+    -webkit-text-fill-color: transparent;
+    animation: move 10s infinite;
+    z-index: 1;
+  }
   width: 300px;
   height: 300px;
   border-radius: 50%;
@@ -193,6 +208,86 @@
     background: #161616;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+}
+.announcement{
+  color: #f2f2f7;
+  &__direction-items{
+    display: flex;
+    flex-direction: column;
+  }
+  &__image{
+    width: 80px;
+    height: 80px;
+    border: 2px solid #ca2e7c;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 8px;
+  }
+  &__title{
+    font-size: 18px;
+    font-weight: 600;
+    text-align: start;
+    padding-left: 14px;
+  }
+  &__description{
+    font-size:12px;
+    text-align: start;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding-left: 14px;
+  }
+  &__adding-info{
+    
+    &--date{
+      font-size: 12px;
+    }
+    &--location{
+      font-size: 12px;
+    }
+  }
+}
+.between{
+  display: flex;
+  justify-content: space-between;
+}
+.add-announcement{
+  position: sticky;
+  position: -webkit-sticky; 
+
+  top: 80%;
+  left: 90%;
+  background: #1a1a1d;
+  border: 1px solid #343435;
+  height: 90px;
+  width: 90px;
+  border-radius: 12px;
+  color: #ca2e7c;
+  transition: height .3s cubic-bezier(0.175, 0.885, 0.32, 1.275) ;
+  transform: rotatex(180deg) translate3d(0, -100px,0);
+  transform-origin: top;
+  text-align: center;
+  
+  &:hover{
+    
+    height: 600px;
+    width: 600px;
+    // transition: height 2s ease-in-out ;
+  }
+  &__button{
+    transition: cubic-bezier(0);
+    transform: rotatex(180deg) translate3d(0, 0px, 0);
+    transform-origin: bottom;
+    border: none;
+    background: none;
+    color: #ca2e7c;
+    font-size: 20px;
   }
 }
 

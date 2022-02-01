@@ -4,9 +4,11 @@ import Announcement from './Announcement';
 const AnnouncementsItems = (props) => {
     const announcements = props.announcementItems.map(announcement =>(
     <Announcement 
-        key={announcement.id}
-        id={announcement.id}
+        key={announcement.announcement_id}
+        id={announcement.announcement_id}
         title={announcement.title}
+        description={announcement.description}
+        location={announcement.location}
     />
     ) )
     return ( 

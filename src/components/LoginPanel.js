@@ -28,7 +28,7 @@ const LoginPanel = (props) => {
               <div className='login-panel__text'>
                 Enter your password
               </div>
-              <input className='login-panel__input' type="text" placeholder='password' name='password' onChange={props.handleLoginInput} />
+              <input className='login-panel__input' type="password" placeholder='password' name='password' onChange={props.handleLoginInput} />
             </div>
           </div>
           <div className='login-panel__accept'>
