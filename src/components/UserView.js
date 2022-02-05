@@ -1,31 +1,24 @@
 import React from 'react';
 import AnnouncementsItems from './AnnouncementsItems';
+import ModalAddAnnouncement from './ModalAddAnnouncement';
 
 const UserView = (props) => {
     return ( 
         <>
-            <div className='container'>
-                <div className='header__user-view'>
-                    <div className='header-block'>AN</div>
-                    <div className='header-block__search'></div>
-                    <div className='header-block'></div>
-                    <div className='header-block'></div>
-                </div>
-            </div>
-            {/* poprawić button  */}
-            {/* <div className='add-announcement'>
-                    <button className='add-announcement__button'>
-                        Add
-                    </button>
-                </div> */}
-            <div className='container'>
+
+            {/* {props.addAnnouncement ? <ModalAddAnnouncement/> : null} */}
+            <div className='container '>
+            {props.addAnnouncement ? <ModalAddAnnouncement/> : null}
                 <div className='col-12 announcement-list'>
                     <AnnouncementsItems announcementItems={props.announcementItems}/>
                 </div>
             </div>
-   
-
-
+  
+            <div className='button-add-announcement'>
+                <button className='button-add-announcement__item' addAnnouncement={props.addAnnouncement} onClick={props.handleAddAnnouncement}>Dodaj</button>
+            </div>
+            {/* {props.addAnnouncement ? <ModalAddAnnouncement/> : null} */}
+            {/* <ModalAddAnnouncement/> */}
         </>
      );
 }

@@ -3,16 +3,22 @@
 // elements   #1a1a1d;
 html{
   scrollbar-width: thin;
+  scrollbar-color: black #1a1a1a;
 }
-.App {
+
+.app {
   text-align: center;
   // background-color: #151516;
   // background: #151722;
   background: #161616;
   font-family: 'Montserrat', sans-serif;
-  height: 100%;
+  // height: 100vh;
   // thin100 thin100 italic light300 regular400 bold700 black900italic
-  
+
+}
+.backgroud{
+  height: 100%;
+  background: #161616;
 }
 .header{
   padding-top: 30px;
@@ -36,6 +42,13 @@ html{
   font-weight: 700;
   color: #ca2e7c;
 
+  &--link{
+    color: #ca2e7c;
+    text-decoration: none;
+    &:hover{
+      color: #ca2e7c;
+    }
+  }
  &__search{
    width: 800px;
   //  height: 70px;
@@ -146,6 +159,7 @@ html{
     padding-top: 8px;
   }
 
+}
 .login-button{
   font-weight: 600;
   border: none;
@@ -158,7 +172,7 @@ html{
   padding:8px ;
  color: #cf184f;
  border-radius: 6px;
- 
+
   &:active{
     border-radius: 6px;
     color:  #cf184f !important;
@@ -166,7 +180,9 @@ html{
     box-shadow: inset 6px 6px 12px #161619,
             inset -6px -6px 12px #1e1e21;
   }
-}
+  &__link{
+    text-decoration: none;
+  }
 }
 .ball{
   &--user-view{
@@ -290,7 +306,64 @@ html{
     font-size: 20px;
   }
 }
-
+.button-add-announcement{
+  width: 80px;
+  height: 80px;
+  border: 2px solid #ca2e7c;
+  border-radius: 50%;
+  position: sticky;
+  bottom: 10%;
+  left: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+	animation: pulse 2s infinite;
+  &__item{
+    width: 100%;
+    height: 100%;
+    background: #131315;
+    border: none;
+    border-radius: 50%;
+    color:#ca2e7c ;
+    font-weight: 600;
+  }
+}
+.add-announcement-modal{
+  color: #f2f2f7;
+  &__item{
+    width: 400px;
+    height: 400px;
+    background: #161616;
+    border-radius: 12px;
+    border: 1px solid #343435;
+    position: fixed;
+    
+    top: 20%;
+    left: 50%;
+   transform: translate(-50%);
+  }
+  &__text{
+    font-size: 20px;
+    color: #f2f2f7;
+  }
+  &__form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  &__input{
+    background: #1a1a1d;
+    border: 1px solid #343435;
+    border-radius:12px ;
+    padding: 4px;
+  }
+  &--text{
+  color: #f2f2f7;
+  }
+}
 @keyframes move {
   0%{
     top: 40%;
@@ -304,6 +377,22 @@ html{
     top: 40%;
     left: 60%;
   }
+}
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 #ca2e48 ;
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
 }
 
 

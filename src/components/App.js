@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import './App.scss';
 import LoginPanel from './LoginPanel';
+import Header from './Header';
 import UserView from './UserView';
+import UserPanel from './UserPanel';
+import { BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom'
+// import AdminPanel from './AdminPanel';
 
 class App extends Component {
 state = {
@@ -11,8 +15,9 @@ state = {
   passwordUser:'',
   // isCorrectLogin powinien być false (czas developowania true)
   isCorrectLogin: true,
-  announcementItems:[]
-
+  // isAllowAccess: false,
+  announcementItems:[],
+  addAnnouncement: false,
 }
 // Funkcja sprawdzająca inputy
 handleLoginInput = (e)=>{
@@ -38,7 +43,15 @@ checkLogIn = () =>{
       isCorrectLogin: true,
     })
   }
+
 }
+// Zmiana stanu przycisku dodającego ogłoszenie
+handleAddAnnouncement = () =>{
+  this.setState({
+    addAnnouncement: !this.state.addAnnouncement,
+  })
+}
+
 componentDidMount () {
   const API = 'http://localhost:8000/announcements/';
   fetch(API,{
@@ -59,20 +72,22 @@ componentDidMount () {
   
 
 }
-test =() =>{
-  // console.log(this.state.announcementItems)
-}
+
+
   render() {
     return (
-      <div className="App">
-        {/* NA CZAS DEVELOPOWANIA USTAWIAM isCorrectLogin na true */}
-  
-        {this.state.isCorrectLogin ? <UserView announcementItems={this.state.announcementItems}/> : <LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/>  }
-        {/* <LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/> */}
-        {/* {this.state.isCorrectLogin ? <UserView/> : null} */}
-        {/* dla testów button */}
-        {/* <button onClick={this.test}>dodaj</button> */}
-      </div>
+        <Router>
+          <div className="app">
+            
+            <Header fullHeader={this.state.isCorrectLogin}/>
+            <Routes>
+              <Route path="/" exact element={<LoginPanel login={this.state.login} password={this.state.password} handleLoginInput={this.handleLoginInput} checkLogIn={this.checkLogIn}/>} />
+              <Route path="userView" element={<UserView announcementItems={this.state.announcementItems} addAnnouncement={this.state.addAnnouncement} handleAddAnnouncement={this.handleAddAnnouncement}/>}/>
+              <Route path="profil" element={<UserPanel/>}/>
+            </Routes>
+
+          </div>
+        </Router>
     );
   }
 }
