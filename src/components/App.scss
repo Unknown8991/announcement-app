@@ -332,8 +332,8 @@ html{
 .add-announcement-modal{
   color: #f2f2f7;
   &__item{
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 500px;
     background: #161616;
     border-radius: 12px;
     border: 1px solid #343435;
@@ -356,12 +356,65 @@ html{
   }
   &__input{
     background: #1a1a1d;
+    color: #f2f2f7;
     border: 1px solid #343435;
     border-radius:12px ;
     padding: 4px;
   }
+  &__button{
+    margin-top: 20px;
+    border: 2px solid #ca2e7c;
+    background: none;
+    color: #ca2e7c;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight:600;
+    &--disable{
+      cursor:default;
+      margin-top: 20px;
+      border: 2px solid #343435;
+      background: none;
+      color: #343435;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight:600;
+      
+    }
+  }
+  &__statement{
+    position: absolute;
+    font-size: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    background: #1a1a1d;
+    border: 1px solid #343435;
+    padding: 10px;
+    border-radius: 10px;
+    &--add{
+      color: rgb(66, 145, 66);
+    }
+    &--test{
+      color: white;
+      font-size:12px ;
+    }
+  }
   &--text{
   color: #f2f2f7;
+  }
+}
+.button-exit{
+  color: #ca2e7c;
+  border: 1px solid #ca2e7c;
+  border-radius: 10px;
+  padding: 3px;
+  margin: 10px;
+  text-align: center;
+  cursor: pointer;
+  &__end{
+    display: flex;
+    justify-content: flex-end;
+    padding: 2px;
+    
   }
 }
 @keyframes move {
