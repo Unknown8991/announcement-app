@@ -18,6 +18,9 @@ state = {
   // isAllowAccess: false,
   announcementItems:[],
   addAnnouncement: false,
+  // wyszukiwarka
+  activeSearch: false,
+  searchText: '',
   // formularz announcement
   title:'',
   description: '',
@@ -30,6 +33,17 @@ state = {
   isFormAnnouncementCorrect: false,
   statementAddAnnouncement: false,
   permissionUser: false,
+  // panel profilu
+  // dane w ustawieniach
+  userData:[],
+  userFirstName: '',
+  userSurname:'',
+  userLogin: '',
+  userPassword: '',
+  userNumberPhone: '',
+  isActiveOptionOne: true,
+  isActiveOptionTwo: false,
+  isActiveOptionThree: false,
 }
 // Funkcja sprawdzająca inputy
 handleLoginInput = (e)=>{
@@ -156,6 +170,91 @@ handleCloseForm = () =>{
     addAnnouncement: false,
   })
 }
+// Uruchomienie wyszukiwarki
+handleActiveSearch =()=>{
+  console.log("działa")
+  this.setState({
+    activeSearch: !this.state.activeSearch,
+  })
+}
+// Działanie wyszukiwarki
+handleChangeForm = (e) =>{
+  let text = e.target.value;
+  console.log('ok')
+  this.setState({
+    searchText: text,
+  })
+}
+// Zmiana aktywnego przycisku w profilu użytkownika
+handleChangeActiveProfilOption = (e)=>{
+  // const elements = this.state.isActiveOption.filter(element =>{
+  //   if(id === element.id){
+  //     element.isActive = !element.isActive
+  //   }
+  //   else {
+  //     element.isActive = !element.isActive
+  //   }
+  //   const item = element.isActive
+  //   return item
+  // })
+  // this.setState({
+  //   elements
+  // })
+  let nameButton = e.target.name
+  if(nameButton === "one"){
+    console.log(nameButton)
+    this.setState({
+      isActiveOptionOne: true,
+      isActiveOptionTwo: false,
+      isActiveOptionThree: false,
+    })
+  }
+  if(nameButton === "two"){
+    console.log(nameButton)
+    this.setState({
+      isActiveOptionOne: false,
+      isActiveOptionTwo: true,
+      isActiveOptionThree: false,
+    })
+  }
+  if(nameButton === "three"){
+    console.log(nameButton)
+    this.setState({
+      isActiveOptionOne: false,
+      isActiveOptionTwo: false,
+      isActiveOptionThree: true,
+    })
+  }
+}
+handleGetUserData = ()=>{
+  const API = 'http://localhost:8000/users/';
+  
+  fetch(API,{
+    method: 'GET',
+    mode: 'cors'
+  }, true)
+  .then(response => response.json())
+  .then(data =>{
+    // console.log(data)
+    this.setState({
+      userData: data,
+    })
+    this.setState({
+      userFirstName: this.state.userData[1].first_name,
+      userSurname:this.state.userData[1].last_name,
+      userLogin: this.state.userData[1].user_name,
+      userPassword: this.state.userData[1].password,
+      userNumberPhone: this.state.userData[1].tel_number,
+    })
+    console.log(this.state.userData)
+    const test = this.state.userData.filter(element => element.first_name === "Czarek")
+    console.log(test)
+  })
+
+}
+
+
+// DO poprawki jeszcze
 componentDidMount () {
   const API = 'http://localhost:8000/announcements/';
   fetch(API,{
@@ -164,13 +263,18 @@ componentDidMount () {
   }, true)
   .then(response => response.json())
   .then(data =>{
-    console.log(data)
+    // console.log(data)
     this.setState({
       announcementItems: data
     })
   })
-  console.log(this.state.announcementItems)
+  // console.log(this.state.announcementItems)
+  
+  // Pobranie info o użytkowniku
+  this.handleGetUserData();
+
 }
+
 
 
   render() {
@@ -186,20 +290,39 @@ componentDidMount () {
                 permissionUser={this.state.permissionUser}
                 handleLoginInput={this.handleLoginInput} 
                 checkLogIn={this.checkLogIn}
+                getUserData={()=>this.handleGetUserData()}
               />}/>
               <Route path="userView" element={<UserView
-              fullHeader={this.state.isCorrectLogin}
+                fullHeader={this.state.isCorrectLogin}
                 announcementItems={this.state.announcementItems} 
+                activeSearch={this.state.activeSearch}
+                searchText = {this.state.searchText}
                 addAnnouncement={this.state.addAnnouncement} 
                 isFormAnnouncementCorrect={this.state.isFormAnnouncementCorrect}
                 statementAddAnnouncement={this.state.statementAddAnnouncement}
+                handleActiveSearch={this.handleActiveSearch}
+                handleChangeForm={this.handleChangeForm}
                 handleInputAnnouncement={this.handleInputAnnouncement}
                 handleAddAnnouncement={this.handleAddAnnouncement}
                 handleSendAnnouncement={this.handleSendAnnouncement}
                 handleUpdateStateAnnouncementForm={this.handleUpdateStateAnnouncementForm}
                 handleCloseForm={this.handleCloseForm}
+                
                />}/>
-              <Route path="profil" element={<UserPanel/>}/>
+              <Route path="profil" element={<UserPanel
+                isActiveOptionOne={this.state.isActiveOptionOne}
+                isActiveOptionTwo={this.state.isActiveOptionTwo}
+                isActiveOptionThree={this.state.isActiveOptionThree}
+                userData={this.state.userData}
+                userFirstName={this.state.userFirstName}
+                userSurname={this.state.userSurname}
+                userLogin={this.state.userLogin}
+                userPassword={this.state.userPassword}
+                userNumberPhone={this.state.userNumberPhone}
+                announcementItems={this.state.announcementItems}
+                changeActiveProfilOption={this.handleChangeActiveProfilOption}
+              />}
+              />
             </Routes>
 
           </div>

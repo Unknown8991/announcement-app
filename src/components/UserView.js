@@ -7,7 +7,13 @@ import ModalStatementAddAnnouncement from './ModalStatementAddAnnouncement';
 const UserView = (props) => {
     return ( 
         <>
-        <Header fullHeader={props.isCorrectLogin}/>
+        <Header  
+            fullHeader={props.isCorrectLogin} 
+            handleChangeForm={props.handleChangeForm}
+            activeSearch={props.activeSearch}
+            handleActiveSearch={props.handleActiveSearch}
+            
+        />
             {props.statementAddAnnouncement ? 
             <ModalStatementAddAnnouncement />
             :
@@ -23,7 +29,10 @@ const UserView = (props) => {
                 handleCloseForm={props.handleCloseForm}
                 /> : null}
                 <div className='col-12 announcement-list'>
-                    <AnnouncementsItems announcementItems={props.announcementItems}/>
+                    <AnnouncementsItems 
+                        searchText={props.searchText} 
+                        announcementItems={props.announcementItems}
+                    />
                 </div>
             </div>
   

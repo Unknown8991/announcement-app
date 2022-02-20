@@ -55,7 +55,40 @@ html{
   background: #1a1a1d;
   border: 1px solid #343435;
   border-radius: 12px;
+  display: flex;
+  &--active{
+    border: 1px solid #ca2e7c;
+    width: 800px;
+    //  height: 70px;
+    background: #1a1a1d;
+    
+    border-radius: 12px;
+    display: flex;
+  }
  } 
+}
+.search-input{
+  background: none;
+  color: #f2f2f7;
+  border: none;
+  outline: none;
+  margin-left: 4px;
+  
+  &__button{
+    color: #f2f2f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #343435;
+  }
+  &--active{
+    background: none;
+    color: #f2f2f7;
+    border: none;
+    outline: none;
+    margin-left: 4px;
+    color:#ca2e7c ;
+  }
 }
 // LoginPanel
 .row-box{
@@ -370,7 +403,7 @@ html{
     border-radius: 10px;
     font-weight:600;
     &--disable{
-      cursor:default;
+      // cursor:default;
       margin-top: 20px;
       border: 2px solid #343435;
       background: none;
@@ -415,6 +448,106 @@ html{
     justify-content: flex-end;
     padding: 2px;
     
+  }
+}
+// Profil panel
+.profile-box{
+  background: #1a1a1d;
+  border: 1px solid #343435;
+  border-radius: 12px;
+  margin-top: 40px;
+  // padding-bottom: 40px ;
+  height: 100%;
+  // margin-bottom: 40px;
+  // padding: 20px;
+  &__header{
+    font-size: 40px;
+    color: #f2f2f7;
+  }
+  &__composition{
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-right: 20px;
+  }
+  &__view{
+    // display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+    border: 1px solid #343435;
+    border-radius: 12px;
+    // margin: 20px;
+
+  }
+}
+.profile-button{
+  padding: 10px 0px;
+  margin: 10px 0px;
+  background: #131315;
+  color: #ca2e7c;
+  border: none;
+  border-radius: 12px;
+  &--active{
+    border-radius: 12px;
+    background: #1a1a1d;
+    box-shadow: inset 6px 6px 12px #161619,
+                inset -6px -6px 12px #1e1e21;
+  }
+  // &:hover{
+  //   border-radius: 12px;
+  //   background: #1a1a1d;
+  //   box-shadow: inset 6px 6px 12px #161619,
+  //               inset -6px -6px 12px #1e1e21;
+  // }
+}
+.my-profile-data{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 20px;
+  &__composition{
+    display: flex;
+    flex-direction: column;
+
+  }
+  &__label{
+    text-align: start;
+    color: #f2f2f7;
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  &__input{
+    background: #161616;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 0px 8px 8px;
+    outline: none;
+    color: #f2f2f7;
+  }
+  &__description{
+    color: #f2f2f7;
+    height: 170px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    background: linear-gradient(217deg, #cf184f, rgba(255,0,0,0) 70.71%),
+            linear-gradient(127deg, rgba(188, 48, 223, 0.8), rgba(0,255,0,0) 70.71%),
+            linear-gradient(336deg, #df698c, rgba(0,0,255,0) 70.71%);
+    &--title{
+      margin: 8px;
+      padding: 2px;
+      background: rgb(143, 89, 110);
+      // background: rgb(150, 59, 94);
+      border-radius: 12px;
+    }
+    &--text{
+      display: flex;
+      text-align: right;
+      padding-right: 8px;
+      // height: 100%;
+      margin-top: 40px;
+    }
   }
 }
 @keyframes move {
