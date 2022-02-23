@@ -7,6 +7,7 @@ import AdminView from './AdminView';
 import UserPanel from './UserPanel';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 // import AdminPanel from './AdminPanel';
+import Request from '../utils/Request';
 
 class App extends Component {
 state = {
@@ -22,7 +23,7 @@ state = {
   isActivePassword: false,
   allowEntry: false,
   // isCorrectLogin powinien być false (czas developowania true)
-  // isCorrectLogin: true,
+  isCorrectLogin: false,
   // isAllowAccess: false,
   announcementItems:[],
   addAnnouncement: false,
@@ -218,7 +219,7 @@ handleSendAnnouncement = () =>{
       }
  
   }
-  const url = 'http://localhost:8000/announcements/';
+  const url = Request.url + 'announcements/';
   fetch(url, {
     method: 'POST',
     headers:{
@@ -315,7 +316,7 @@ handleChangeActiveProfilOption = (e)=>{
   }
 }
 handleGetUserData = ()=>{
-  const API = 'http://localhost:8000/users/';
+  const API = Request.url + 'users/';
   
   fetch(API,{
     method: 'GET',
@@ -343,7 +344,7 @@ handleGetUserData = ()=>{
 
 // DO poprawki jeszcze
 componentDidMount () {
-  const API = 'http://localhost:8000/announcements/';
+  const API = Request.url + 'announcements/';
   fetch(API,{
     method: 'GET',
     mode: 'cors'
