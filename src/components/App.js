@@ -3,18 +3,26 @@ import './App.scss';
 import LoginPanel from './LoginPanel';
 import Header from './Header';
 import UserView from './UserView';
+import AdminView from './AdminView';
 import UserPanel from './UserPanel';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 // import AdminPanel from './AdminPanel';
 
 class App extends Component {
 state = {
-  login: 'admin',
-  password: '123qwe',
+
   loginUser:'',
   passwordUser:'',
+  idUser:'',
+  firstName: '',
+  lastName: '',
+  phoneNumber: '',
+  isCorrectLoginUser: false, 
+  isCorrectPasswordUser: false, 
+  isActivePassword: false,
+  allowEntry: false,
   // isCorrectLogin powinien być false (czas developowania true)
-  isCorrectLogin: true,
+  // isCorrectLogin: true,
   // isAllowAccess: false,
   announcementItems:[],
   addAnnouncement: false,
@@ -36,42 +44,104 @@ state = {
   // panel profilu
   // dane w ustawieniach
   userData:[],
-  userFirstName: '',
-  userSurname:'',
-  userLogin: '',
-  userPassword: '',
-  userNumberPhone: '',
+  // userFirstName: '',
+  // userSurname:'',
+  // userLogin: '',
+  // userPassword: '',
+  // userNumberPhone: '',
   isActiveOptionOne: true,
   isActiveOptionTwo: false,
   isActiveOptionThree: false,
 }
 // Funkcja sprawdzająca inputy
 handleLoginInput = (e)=>{
- 
+  const arrayUsers = [...this.state.userData]
+
   if(e.target.name === 'login'){
 
-    this.setState({
-      loginUser: e.target.value,
-    })
-  } 
-  if(e.target.name === 'password'){
-
-    this.setState({
-      passwordUser: e.target.value,
-    })
+    const found = arrayUsers.filter(element => element.user_name === e.target.value)
+    // console.log(found)
+    if(found.length === 0){
+      // console.log('pusta tablica')
+      this.setState({
+        loginUser: '',
+        passwordUser: '',
+        idUser:'',
+        firstName:'',
+        lastName:'',
+        phoneNumber:'',
+        isCorrectLogin: false,
+      })
+    }else{
+      // console.log('Nie jest pusta')
+      this.setState({
+        loginUser: found[0].user_name,
+        passwordUser: found[0].password,
+        idUser: found[0].user_id,
+        firstName: found[0].first_name,
+        lastName: found[0].last_name,
+        phoneNumber: found[0].tel_number,
+        isCorrectLoginUser: true,
+      })
+    }
+    return found
   }
+  if(e.target.name === "password"){
+    if(this.state.loginUser !== "" && this.state.passwordUser){
+      if(this.state.passwordUser === e.target.value){
+        console.log('poprawne')
+        this.setState({
+          isCorrectPasswordUser: true
+        })
+      }else{
+        this.setState({
+          isCorrectPasswordUser: false
+        })
+      }
+    }
+  }
+
+  
+  // if(e.target.name === 'login'){
+  //   const foundUser = arrayUsers.map(element => {
+  //     if(e.target.value  === element.user_name){
+        
+  //       this.setState({
+  //         loginUser: element.user_name,
+  //         idUser: element.user_id,
+  //         isCorrectLoginUser: true,
+  //       })
+  //     } 
+      
+  //     return foundUser
+  //   })
+    
+  // } 
+  // if(e.target.name === 'password'){
+  //   const foundPassword = arrayUsers.filter(element => {
+  //     if(element.password === e.target.value){
+  //       this.setState({
+  //         passwordUser: e.target.value,
+  //         isCorrectPasswordUser: true,
+  //       })
+  //     }
+
+  //     return foundPassword
+  //   })
+  // }
+
 }
 // Funkcja ustawia isCorrectLogin na true jeśli password i login jest poprawny
 checkLogIn = () =>{
-  if(this.state.login === this.state.loginUser && this.state.password === this.state.passwordUser){
+  if(this.state.isCorrectLoginUser === true && this.state.isCorrectPasswordUser === true){
+    // console.log('mozna wejsc')
     this.setState({
-      isCorrectLogin: true,
-      // tymczasowe
-      // permissionUser: true,
+      allowEntry: true,
     })
   }
-
 }
+
+
 // Zmiana stanu przycisku dodającego ogłoszenie
 handleAddAnnouncement = () =>{
   this.setState({
@@ -122,13 +192,31 @@ handleSendAnnouncement = () =>{
   console.log('działa')
  
   const data={
-    "title": this.state.title,
-    "description": this.state.description,
-    "address_id": null,
-    "lm_dat": "2022-02-12T10:02:21.907571Z",
-    "end_dat": "2022-03-01T09:46:09.541000Z",
-    "state": 1,
-    "type": null
+    // "title": this.state.title,
+    // "description": this.state.description,
+    // "address_id": null,
+    // "lm_dat": "2022-02-12T10:02:21.907571Z",
+    // "end_dat": "2022-03-01T09:46:09.541000Z",
+    // "state": 1,
+    // "type": null
+    
+      "user_id": "3",
+      "title": "Wynajmę powierzchnię blisko centrum Tychów",
+      "description": "Chciałbym wynająć powierzchnię reklamową blisko centrum w celu publikacji reklamy artykułów spożywczych. Wstępna przewidywany zakres trwania umowy to pół roku. Zachęcam do kontaktu",
+      "adddate": "2022-01-01T09:46:09.541Z",
+      "is_del": "False",
+      "lm_dat": "2022-01-01T09:46:09.541Z",
+      "end_dat": "2022-03-01T09:46:09.541Z",
+      "state": "1",
+      "address": {
+           "type": "2",
+           "city": "Tychy",
+           "street": "Żwakowska",
+           "bld_number": "14",
+           "fleet": "12",
+           "code": "43-100"
+      }
+ 
   }
   const url = 'http://localhost:8000/announcements/';
   fetch(url, {
@@ -240,11 +328,11 @@ handleGetUserData = ()=>{
       userData: data,
     })
     this.setState({
-      userFirstName: this.state.userData[1].first_name,
-      userSurname:this.state.userData[1].last_name,
-      userLogin: this.state.userData[1].user_name,
-      userPassword: this.state.userData[1].password,
-      userNumberPhone: this.state.userData[1].tel_number,
+      // userFirstName: this.state.userData[1].first_name,
+      // userSurname:this.state.userData[1].last_name,
+      // userLogin: this.state.userData[1].user_name,
+      // userPassword: this.state.userData[1].password,
+      // userNumberPhone: this.state.userData[1].tel_number,
     })
     console.log(this.state.userData)
     const test = this.state.userData.filter(element => element.first_name === "Czarek")
@@ -252,7 +340,6 @@ handleGetUserData = ()=>{
   })
 
 }
-
 
 // DO poprawki jeszcze
 componentDidMount () {
@@ -276,7 +363,6 @@ componentDidMount () {
 }
 
 
-
   render() {
     return (
         <Router>
@@ -284,15 +370,52 @@ componentDidMount () {
             
             {/* <Header fullHeader={this.state.isCorrectLogin} permissionUser={this.state.permissionUser}/> */}
             <Routes>
-              <Route path="/" exact element={<LoginPanel 
-                login={this.state.login} 
-                password={this.state.password} 
-                permissionUser={this.state.permissionUser}
-                handleLoginInput={this.handleLoginInput} 
-                checkLogIn={this.checkLogIn}
-                getUserData={()=>this.handleGetUserData()}
-              />}/>
-              <Route path="userView" element={<UserView
+
+              <Route path="/" exact element={
+                <LoginPanel 
+                  login={this.state.login} 
+                  password={this.state.password} 
+                  permissionUser={this.state.permissionUser}
+                  idUser={this.state.idUser}
+                  allowEntry={this.state.allowEntry}
+                  isCorrectLoginUser={this.state.isCorrectLoginUser}
+                  isCorrectPasswordUser={this.state.isCorrectPasswordUser}
+                  handleLoginInput={this.handleLoginInput} 
+                  checkLogIn={this.checkLogIn}
+                  getUserData={()=>this.handleGetUserData()}
+                />
+              }
+              />
+    
+              {this.state.idUser ===1 ?
+              <Route path='adminView' element={
+                  <AdminView/>
+              }/>
+              :
+              <Route path="userView" element={ 
+                  <UserView
+                    fullHeader={this.state.isCorrectLogin}
+                    announcementItems={this.state.announcementItems} 
+                    activeSearch={this.state.activeSearch}
+                    searchText = {this.state.searchText}
+                    addAnnouncement={this.state.addAnnouncement} 
+                    isFormAnnouncementCorrect={this.state.isFormAnnouncementCorrect}
+                    statementAddAnnouncement={this.state.statementAddAnnouncement}
+                    handleActiveSearch={this.handleActiveSearch}
+                    handleChangeForm={this.handleChangeForm}
+                    handleInputAnnouncement={this.handleInputAnnouncement}
+                    handleAddAnnouncement={this.handleAddAnnouncement}
+                    handleSendAnnouncement={this.handleSendAnnouncement}
+                    handleUpdateStateAnnouncementForm={this.handleUpdateStateAnnouncementForm}
+                    handleCloseForm={this.handleCloseForm}
+                  /> 
+                }
+              />
+              }
+            
+
+              {/* <Route path="userView" element={ 
+              <UserView
                 fullHeader={this.state.isCorrectLogin}
                 announcementItems={this.state.announcementItems} 
                 activeSearch={this.state.activeSearch}
@@ -307,18 +430,18 @@ componentDidMount () {
                 handleSendAnnouncement={this.handleSendAnnouncement}
                 handleUpdateStateAnnouncementForm={this.handleUpdateStateAnnouncementForm}
                 handleCloseForm={this.handleCloseForm}
-                
-               />}/>
+                /> 
+                }/> */}
               <Route path="profil" element={<UserPanel
                 isActiveOptionOne={this.state.isActiveOptionOne}
                 isActiveOptionTwo={this.state.isActiveOptionTwo}
                 isActiveOptionThree={this.state.isActiveOptionThree}
                 userData={this.state.userData}
-                userFirstName={this.state.userFirstName}
-                userSurname={this.state.userSurname}
-                userLogin={this.state.userLogin}
-                userPassword={this.state.userPassword}
-                userNumberPhone={this.state.userNumberPhone}
+                userFirstName={this.state.firstName}
+                userSurname={this.state.lastName}
+                userLogin={this.state.loginUser}
+                userPassword={this.state.passwordUser}
+                userNumberPhone={this.state.phoneNumber}
                 announcementItems={this.state.announcementItems}
                 changeActiveProfilOption={this.handleChangeActiveProfilOption}
               />}
