@@ -33,6 +33,11 @@ state = {
   title:'',
   description: '',
   location: '',
+  city: '',
+  street: '',
+  bldNumber: '',
+  fleet: '',
+  code: '',
   addressId: null,
   lmDat:'',
   endDat:'',
@@ -44,11 +49,8 @@ state = {
   // panel profilu
   // dane w ustawieniach
   userData:[],
-  // userFirstName: '',
-  // userSurname:'',
-  // userLogin: '',
-  // userPassword: '',
-  // userNumberPhone: '',
+  myAnnouncements:[],
+  myFavourites:[],
   isActiveOptionOne: true,
   isActiveOptionTwo: false,
   isActiveOptionThree: false,
@@ -143,7 +145,6 @@ checkLogIn = () =>{
   }
 }
 
-
 // Zmiana stanu przycisku dodającego ogłoszenie
 handleAddAnnouncement = () =>{
   this.setState({
@@ -164,12 +165,32 @@ handleInputAnnouncement = (e) =>{
       description: e.target.value,
     })
   }
-  // Potrzebny dana dla lokacji 
-  // if(name === "location"){
-  //   this.setState({
-  //     location: e.target.value
-  //   })
-  // }
+  if(name === "city"){
+  
+    this.setState({
+      city: e.target.value
+    })
+  }
+  if(name === "street"){
+    this.setState({
+      street: e.target.value
+    })
+  }
+  if(name === "bldNumber"){
+    this.setState({
+      bldNumber: e.target.value
+    })
+  }
+  if(name === "fleet"){
+    this.setState({
+      fleet: e.target.value
+    })
+  }
+  if(name === "code"){
+    this.setState({
+      code: e.target.value
+    })
+  }
 
 }
 // Aktywacja przycisku dodawania ogłoszenia
@@ -191,35 +212,26 @@ handleUpdateStateAnnouncementForm = ()=>{
 }
 // Wysłanie formularza z ogłoszeniem
 handleSendAnnouncement = () =>{
-  console.log('działa')
- 
   const data={
-    // "title": this.state.title,
-    // "description": this.state.description,
-    // "address_id": null,
-    // "lm_dat": "2022-02-12T10:02:21.907571Z",
-    // "end_dat": "2022-03-01T09:46:09.541000Z",
-    // "state": 1,
-    // "type": null
-    
-      "user_id": "3",
-      "title": "Wynajmę powierzchnię blisko centrum Tychów",
-      "description": "Chciałbym wynająć powierzchnię reklamową blisko centrum w celu publikacji reklamy artykułów spożywczych. Wstępna przewidywany zakres trwania umowy to pół roku. Zachęcam do kontaktu",
-      "adddate": "2022-01-01T09:46:09.541Z",
-      "is_del": "False",
-      "lm_dat": "2022-01-01T09:46:09.541Z",
-      "end_dat": "2022-03-01T09:46:09.541Z",
-      "state": "1",
-      "address": {
-           "type": "2",
-           "city": "Tychy",
-           "street": "Żwakowska",
-           "bld_number": "14",
-           "fleet": "12",
-           "code": "43-100"
-      }
  
+          "user_id": this.state.idUser,
+          "title": this.state.title,
+          "description": this.state.description,
+          "adddate": "2022-01-01T09:46:09.541Z",
+          "is_del": "False",
+          "lm_dat": "2022-01-01T09:46:09.541Z",
+          "end_dat": "2022-03-01T09:46:09.541Z",
+          "state": "1",
+          "address": {
+               "city": this.state.city,
+               "street": this.state.street,
+               "bld_number": this.state.bldNumber,
+               "fleet": this.state.fleet,
+               "code": this.state.code
+          }
   }
+  console.log(data)
+ 
   const url = Request.url + 'announcements/';
   fetch(url, {
     method: 'POST',
@@ -277,21 +289,11 @@ handleChangeForm = (e) =>{
 }
 // Zmiana aktywnego przycisku w profilu użytkownika
 handleChangeActiveProfilOption = (e)=>{
-  // const elements = this.state.isActiveOption.filter(element =>{
-  //   if(id === element.id){
-  //     element.isActive = !element.isActive
-  //   }
-  //   else {
-  //     element.isActive = !element.isActive
-  //   }
-  //   const item = element.isActive
-  //   return item
-  // })
-  // this.setState({
-  //   elements
-  // })
+ 
   let nameButton = e.target.name
   if(nameButton === "one"){
+    
+
     console.log(nameButton)
     this.setState({
       isActiveOptionOne: true,
@@ -300,14 +302,42 @@ handleChangeActiveProfilOption = (e)=>{
     })
   }
   if(nameButton === "two"){
+    const API = Request.url + `announcements/user/${this.state.idUser}`;
+    console.log(API)
+    fetch(API,{
+      method: 'GET',
+      mode: 'cors'
+    }, true)
+    .then(response => response.json())
+    .then(data =>{
+      this.setState({
+        myAnnouncements: data
+      })
+      console.log(data)
+    })
     console.log(nameButton)
     this.setState({
       isActiveOptionOne: false,
       isActiveOptionTwo: true,
       isActiveOptionThree: false,
     })
+
   }
   if(nameButton === "three"){
+    const API = Request.url + `favourites/user/${this.state.idUser}`;
+    console.log(API)
+    fetch(API,{
+      method: 'GET',
+      mode: 'cors'
+    }, true)
+    .then(response => response.json())
+    .then(data =>{
+      this.setState({
+        myFavourites: data
+      })
+      console.log(data)
+    })
+
     console.log(nameButton)
     this.setState({
       isActiveOptionOne: false,
@@ -439,6 +469,8 @@ componentDidMount () {
                 isActiveOptionTwo={this.state.isActiveOptionTwo}
                 isActiveOptionThree={this.state.isActiveOptionThree}
                 userData={this.state.userData}
+                myAnnouncements={this.state.myAnnouncements}
+                myFavourites={this.state.myFavourites}
                 userFirstName={this.state.firstName}
                 userSurname={this.state.lastName}
                 userLogin={this.state.loginUser}

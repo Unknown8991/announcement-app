@@ -1,5 +1,5 @@
 class Request {
-     static url = "http://192.168.100.16/";
+     static url = "http://localhost:8000/";
 }
 
 export default Request;

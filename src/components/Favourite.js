@@ -1,8 +1,9 @@
 import React from 'react';
 
-const Announcement = (props) => {
+const Favourtie = (props) => {
     return ( 
-        <div className='col-12 announcement-list__item'>
+        <div>
+            <div className='col-12 announcement-list__item'>
             <div className=' announcement announcement__image'>
                 An
             </div>
@@ -23,7 +24,8 @@ const Announcement = (props) => {
             </div>
             </div>
         </div>
+        </div>
      );
 }
  
-export default Announcement;
+export default Favourtie;

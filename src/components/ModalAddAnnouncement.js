@@ -18,19 +18,27 @@ const ModalAddAnnouncement = (props) => {
                 <input className='add-announcement-modal__input' type="text" name='description' onChange={props.handleInputAnnouncement} />
             </div>
             {/* Potrzebny endpoint dla location */}
-            {/* <div className='add-announcement-modal__form'>
+            <div className='add-announcement-modal__form'>
                 <label className='add-announcement-modal--text' htmlFor="">Określ lokalizację</label>
-                <input className='add-announcement-modal__input' type="text" name='location' onChange={props.handleInputAnnouncement} />
-            </div> */}
-            {/* Data dodania powinna być automatycznie pobierana jako aktualny dzień */}
-            {/* <div className='add-announcement-modal__form'>
-                <label className='add-announcement-modal--text' htmlFor="">Data dodania</label>
-                <input className='add-announcement-modal__input' type="text" name='date' />
-            </div> */}
-            {/* <div className='add-announcement-modal__form'>
-                <label className='add-announcement-modal--text' htmlFor="">Data zakończenia</label>
-                <input className='add-announcement-modal__input' type="text" name='date' onChange={props.handleInputAnnouncement} />
-            </div> */}
+                <input className='add-announcement-modal__input' type="text" name='city' onChange={props.handleInputAnnouncement} />
+            </div>
+            <div className='add-announcement-modal__form'>
+                <label className='add-announcement-modal--text' htmlFor="">Ulica</label>
+                <input className='add-announcement-modal__input' type="text" name='street' onChange={props.handleInputAnnouncement} />
+            </div>
+            <div className='add-announcement-modal__form'>
+                <label className='add-announcement-modal--text' htmlFor="">Numer budynku</label>
+                <input className='add-announcement-modal__input' type="text" name='bldNumber' onChange={props.handleInputAnnouncement} />
+            </div>
+            <div className='add-announcement-modal__form'>
+                <label className='add-announcement-modal--text' htmlFor="">Numer mieszkania</label>
+                <input className='add-announcement-modal__input' type="text" name='fleet' onChange={props.handleInputAnnouncement} />
+            </div>
+            <div className='add-announcement-modal__form'>
+                <label className='add-announcement-modal--text' htmlFor="">Kod pocztowy</label>
+                <input className='add-announcement-modal__input' type="text" name='code' onChange={props.handleInputAnnouncement} />
+            </div>
+
             </div>
             {props.isFormAnnouncementCorrect ? 
                 <button className='add-announcement-modal__button' onClick={props.handleSendAnnouncement}>Wyślij</button>

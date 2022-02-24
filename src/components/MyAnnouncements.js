@@ -7,7 +7,7 @@ const MyAnnouncements = (props) => {
     return ( 
         <div>
             <MyAnnItems 
-                announcementItems={props.announcementItems}
+                myAnnouncements={props.myAnnouncements}
             />
         </div>
      );

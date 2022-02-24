@@ -45,11 +45,11 @@ const UserPanel = (props) => {
                             /> : null}
                             {props.isActiveOptionTwo ? 
                                 <MyAnnouncements
-                                    announcementItems={props.announcementItems}
+                                    myAnnouncements={props.myAnnouncements}
                                 /> : null}
                             {props.isActiveOptionThree ? 
                                 <FavoriteAnnouncements
-                                    announcementItems={props.announcementItems}
+                                    myFavourites={props.myFavourites}
                                 /> : null}
                         </div>
                     </div>

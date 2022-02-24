@@ -1,13 +1,11 @@
 import React from 'react';
-import MyAnnItems from './MyAnnItems';
+import FavouriteItems from './FavouriteItems';
 
 const FavoriteAnnouncements = (props) => {
+
     return ( 
         <div>
-
-            <MyAnnItems
-                announcementItems={props.announcementItems}
-            />
+            <FavouriteItems myFavourites={props.myFavourites}/>
         </div>
      );
 }
