@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
 import LoginPanel from './LoginPanel';
-import Header from './Header';
 import UserView from './UserView';
 import AdminView from './AdminView';
 import UserPanel from './UserPanel';
@@ -56,7 +55,8 @@ state = {
 // Funkcja sprawdzająca inputy
 handleLoginInput = (e)=>{
   const arrayUsers = [...this.state.userData]
-
+  const testowanie = window.localStorage.setItem('test', JSON.stringify(arrayUsers))
+  console.log(testowanie)
   if(e.target.name === 'login'){
 
     const found = arrayUsers.filter(element => element.user_name === e.target.value)
@@ -83,6 +83,7 @@ handleLoginInput = (e)=>{
         phoneNumber: found[0].tel_number,
         isCorrectLoginUser: true,
       })
+      
     }
     return found
   }
@@ -172,7 +173,7 @@ handleInputAnnouncement = (e) =>{
 }
 // Aktywacja przycisku dodawania ogłoszenia
 handleUpdateStateAnnouncementForm = ()=>{
-  const today = new Date();
+  // const today = new Date();
   // console.log(today)
   if(this.state.title.length > 0 && this.state.description.length > 0){
 
