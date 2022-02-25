@@ -19,6 +19,7 @@ const MyAnnItems = (props) => {
                     bldNumber={bldNumber}
                     fleet={fleet}
                     code={code}
+                    handleDeleteAnnouncements={props.handleDeleteAnnouncements}
                 />
             )
         }

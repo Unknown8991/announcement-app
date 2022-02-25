@@ -54,6 +54,7 @@ state = {
   isActiveOptionOne: true,
   isActiveOptionTwo: false,
   isActiveOptionThree: false,
+  isDeleteAnnouncement: false,
 }
 // Funkcja sprawdzająca inputy
 handleLoginInput = (e)=>{
@@ -345,7 +346,7 @@ handleChangeActiveProfilOption = (e)=>{
       this.setState({
         myAnnouncements: data
       })
-      console.log(data)
+      // console.log(data)
     })
     console.log(nameButton)
     this.setState({
@@ -367,7 +368,7 @@ handleChangeActiveProfilOption = (e)=>{
       this.setState({
         myFavourites: data
       })
-      console.log(data)
+      // console.log(data)
     })
 
     console.log(nameButton)
@@ -411,6 +412,47 @@ handleAddToFavourites = (id) =>{
     }
   })
 }
+handleDeleteAnnouncements = (id) =>{
+  const arr = [...this.state.myAnnouncements]
+ 
+  const arrayMyAnnouncements = arr.map(element =>{
+    if(element.announcement_id === id){
+      const API = Request.url + `announcements/${element.announcement_id}`;
+      fetch(API,{
+        method: 'DELETE',
+        mode: 'cors'
+      }, true).then(response =>{
+        const API = Request.url + `announcements/user/${this.state.idUser}`;
+          console.log(API)
+          fetch(API,{
+            method: 'GET',
+            mode: 'cors'
+          }, true)
+          .then(response => response.json())
+          .then(data =>{
+            this.setState({
+              myAnnouncements: data
+            })
+            console.log(data)
+          })
+        })
+    }
+  }
+  )
+  // const API = Request.url + `announcements/user/${this.state.idUser}`;
+  // console.log(API)
+  // fetch(API,{
+  //   method: 'GET',
+  //   mode: 'cors'
+  // }, true)
+  // .then(response => response.json())
+  // .then(data =>{
+  //   this.setState({
+  //     myAnnouncements: data
+  //   })
+  //   console.log(data)
+  // })
+}
 handleGetUserData = ()=>{
   const API = Request.url + 'users/';
   
@@ -438,7 +480,7 @@ handleGetUserData = ()=>{
 
 }
 
-// DO poprawki jeszcze
+// Do poprawki jeszcze
 componentDidMount () {
   this.handleGetUserData();
 }
@@ -526,6 +568,7 @@ componentDidMount () {
                 userPassword={this.state.passwordUser}
                 userNumberPhone={this.state.phoneNumber}
                 announcementItems={this.state.announcementItems}
+                handleDeleteAnnouncements={this.handleDeleteAnnouncements}
                 changeActiveProfilOption={this.handleChangeActiveProfilOption}
               />}
               />

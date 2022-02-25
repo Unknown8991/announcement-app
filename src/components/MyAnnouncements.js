@@ -8,6 +8,7 @@ const MyAnnouncements = (props) => {
         <div>
             <MyAnnItems 
                 myAnnouncements={props.myAnnouncements}
+                handleDeleteAnnouncements={props.handleDeleteAnnouncements}
             />
         </div>
      );
