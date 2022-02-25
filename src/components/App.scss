@@ -294,6 +294,21 @@ html{
   }
   &__adding-info{
     
+    &--favourite{
+      border: 1px solid #343435;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #343435;
+      cursor: pointer;
+      &:active{
+        border: 1px solid #ca2e7c;
+        color: #ca2e7c;
+      }
+    }
     &--date{
       font-size: 12px;
     }
@@ -301,6 +316,10 @@ html{
       font-size: 12px;
     }
   }
+}
+.announcement-favourite{
+  display: flex;
+  justify-content: flex-end;
 }
 .between{
   display: flex;
@@ -366,7 +385,7 @@ html{
   color: #f2f2f7;
   &__item{
     width: 500px;
-    height: 500px;
+    // height: 500px;
     background: #161616;
     border-radius: 12px;
     border: 1px solid #343435;

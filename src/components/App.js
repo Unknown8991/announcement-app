@@ -144,7 +144,6 @@ checkLogIn = () =>{
     })
   }
 }
-
 // Zmiana stanu przycisku dodającego ogłoszenie
 handleAddAnnouncement = () =>{
   this.setState({
@@ -346,6 +345,40 @@ handleChangeActiveProfilOption = (e)=>{
     })
   }
 }
+// Dodawanie do ulubionych
+handleAddToFavourites = (id) =>{
+  console.log('dodaj')
+  const arr = [...this.state.announcementItems]
+  // console.log(arr)
+  const arrayFavourites = arr.map(element =>{
+    console.log(arrayFavourites)
+    if(element.announcement_id === id){
+
+      console.log(element.favourite_by)
+      const data = 
+        {
+          "user": this.state.idUser,
+          "announcement": element.announcement_id,
+        }
+        
+      const url = Request.url + 'favourites/';
+      fetch(url, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body:JSON.stringify(data)
+      })
+      .then(response =>{
+        response.json()
+        console.log(response.status)
+      })
+      .catch((error)=>{
+        console.log('Error', error)
+      })
+    }
+  })
+}
 handleGetUserData = ()=>{
   const API = Request.url + 'users/';
   
@@ -437,6 +470,7 @@ componentDidMount () {
                     handleChangeForm={this.handleChangeForm}
                     handleInputAnnouncement={this.handleInputAnnouncement}
                     handleAddAnnouncement={this.handleAddAnnouncement}
+                    handleAddToFavourites={this.handleAddToFavourites}
                     handleSendAnnouncement={this.handleSendAnnouncement}
                     handleUpdateStateAnnouncementForm={this.handleUpdateStateAnnouncementForm}
                     handleCloseForm={this.handleCloseForm}

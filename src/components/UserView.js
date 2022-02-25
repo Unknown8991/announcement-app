@@ -31,6 +31,7 @@ const UserView = (props) => {
                 <div className='col-12 announcement-list'>
                     <AnnouncementsItems 
                         searchText={props.searchText} 
+                        handleAddToFavourites={props.handleAddToFavourites}
                         announcementItems={props.announcementItems}
                     />
                 </div>

@@ -27,21 +27,10 @@ const AnnouncementsItems = (props) => {
             bldNumber={bldNumber}
             fleet={fleet}
             code={code}
+            handleAddToFavourites={props.handleAddToFavourites}
         />
         )
         });
-    // const searchText = arraySearchText.map(element =>(
-        
-    //     <Announcement 
-    //         key={element.announcement_id}
-    //         id={element.announcement_id}
-    //         title={element.title}
-    //         description={element.description}
-            
-    //     />
-    
-
-    //     ))
 
     // Wyświetlenie wszystkich ogłoszeń 
     // const announcements = props.announcementItems.map(announcement =>(

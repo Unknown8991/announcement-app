@@ -17,6 +17,11 @@ const Announcement = (props) => {
                 </div>
             </div>
             <div className='col-2 announcement announcement__adding-info'>
+                <div className='col-12 announcement-favourite'>
+                    <div className='announcement__adding-info--favourite' onClick={()=>props.handleAddToFavourites(props.id)}>
+                        U
+                    </div>
+                </div>
                 <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div> 
                 {/* <div className='announcement__adding-info--date'>Data zakończenia: 01.02.2022</div>  */}
                 <div className='announcement__adding-info--location'>Lokalizacja: {props.city}</div>
