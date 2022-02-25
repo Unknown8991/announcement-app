@@ -135,7 +135,7 @@ handleLoginInput = (e)=>{
   // }
 
 }
-// Funkcja ustawia isCorrectLogin na true jeśli password i login jest poprawny
+// Funkcja ustawia allowEntry na true jeśli password i login jest poprawny
 checkLogIn = () =>{
   if(this.state.isCorrectLoginUser === true && this.state.isCorrectPasswordUser === true){
     // console.log('mozna wejsc')
@@ -143,6 +143,25 @@ checkLogIn = () =>{
       allowEntry: true,
     })
   }
+  
+    const API = Request.url + 'announcements/';
+    fetch(API,{
+      method: 'GET',
+      mode: 'cors'
+    }, true)
+    .then(response => response.json())
+    .then(data =>{
+      // console.log(data)
+      this.setState({
+        announcementItems: data
+      })
+      console.log(data)
+    })
+    // console.log(this.state.announcementItems)
+    
+    // Pobranie info o użytkowniku
+    
+
 }
 // Zmiana stanu przycisku dodającego ogłoszenie
 handleAddAnnouncement = () =>{
@@ -264,6 +283,20 @@ handleSendAnnouncement = () =>{
   console.error('Error:', error);
 });
 
+const API = Request.url + 'announcements/';
+fetch(API,{
+  method: 'GET',
+  mode: 'cors'
+}, true)
+.then(response => response.json())
+.then(data =>{
+  // console.log(data)
+  this.setState({
+    announcementItems: data
+  })
+  console.log(data)
+})
+
 }
 // Zamknięcie formularza ogłoszenia
 handleCloseForm = () =>{
@@ -349,9 +382,8 @@ handleChangeActiveProfilOption = (e)=>{
 handleAddToFavourites = (id) =>{
   console.log('dodaj')
   const arr = [...this.state.announcementItems]
-  // console.log(arr)
+
   const arrayFavourites = arr.map(element =>{
-    console.log(arrayFavourites)
     if(element.announcement_id === id){
 
       console.log(element.favourite_by)
@@ -408,25 +440,8 @@ handleGetUserData = ()=>{
 
 // DO poprawki jeszcze
 componentDidMount () {
-  const API = Request.url + 'announcements/';
-  fetch(API,{
-    method: 'GET',
-    mode: 'cors'
-  }, true)
-  .then(response => response.json())
-  .then(data =>{
-    // console.log(data)
-    this.setState({
-      announcementItems: data
-    })
-  })
-  // console.log(this.state.announcementItems)
-  
-  // Pobranie info o użytkowniku
   this.handleGetUserData();
-
 }
-
 
   render() {
     return (
