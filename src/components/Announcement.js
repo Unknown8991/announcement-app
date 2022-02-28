@@ -42,7 +42,7 @@ const Announcement = (props) => {
                 </div>
                 <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div> 
                 {/* <div className='announcement__adding-info--date'>Data zakończenia: 01.02.2022</div>  */}
-                <div className='announcement__adding-info--location'>Lokalizacja: {props.city}</div>
+                <div className='announcement__adding-info--location'>{props.city}</div>
             </div>
             </div>
         </div>

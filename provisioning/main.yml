@@ -1,0 +1,42 @@
+---
+  - hosts: all
+    gather_facts: no
+    become: yes
+    vars:
+        NODE_VERSION: 16.13.0
+    tasks:
+      - name: install minimum vm requirements
+        apt:
+          name:
+            - curl
+            - vim
+            - npm
+        update_cache: yes
+      
+      # - name: install nvm package
+      #   become_user: vagrant
+      #   shell:
+      #     cmd: curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+      #   args:
+      #     executable: /bin/bash
+
+      - name: download nvm package
+        become_user: vagrant
+        get_url:
+          url: https://raw.githubusercontent.com/creationix/nvm/master/install.sh
+          dest: /tmp/install.sh
+          mode: '0777'
+
+      - name: install nvm package
+        become_user: vagrant
+        shell:
+          cmd: cd /tmp/ && ./install.sh
+
+      - name: install node "{{ NODE_VERSION }}"
+        become_user: vagrant
+        shell:
+          cmd: source ~/.nvm/nvm.sh && nvm install "{{ NODE_VERSION }}"
+        args:
+          executable: /bin/bash
+            
+        

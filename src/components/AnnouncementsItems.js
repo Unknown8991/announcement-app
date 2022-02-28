@@ -115,7 +115,7 @@ const AnnouncementsItems = (props) => {
                             <div className='announcement__details--number'>Numer telefonu: {props.dphoneNumber}</div>    
                         <div className='photo'>
                             {props.photo === null ? 'BRAK' : 
-                            <img className='photo-item' src={`http://localhost:8000${props.photo}`} alt="BRAK ZDJĘCIA" />
+                            <img className='photo-item' src={`http://192.168.100.16${props.photo}`} alt="BRAK ZDJĘCIA" />
                             }
                             
                         </div>                     

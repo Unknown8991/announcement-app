@@ -1,0 +1,17 @@
+---
+# Vagrant configuration
+vagrant_api_version: "2"
+
+# VM configuration
+machine:
+    box: "generic/debian10"
+    v_provider: "virtualbox"
+    v_ip_address: "192.168.0.12"
+    v_name: "announcements_app_vm"
+    v_hostname: "AnnouncementsApp"
+    v_memory: "512"
+    v_cpus: "2"
+    port_forwarded:
+        enabled: false
+        v_port: 8000
+        host_port: 8880
