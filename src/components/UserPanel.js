@@ -28,7 +28,7 @@ const UserPanel = (props) => {
                         </div>
                         <div>
                             <button name="three" className={props.isActiveOptionThree ? 'col-10 profile-button profile-button--active':'col-10 profile-button'} onClick={props.changeActiveProfilOption}>
-                                Ulubione ogłoszenia
+                                Obserwowane ogłoszenia
                             </button>
                         </div>
                     </div>

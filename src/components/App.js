@@ -10,7 +10,19 @@ import Request from '../utils/Request';
 
 class App extends Component {
 state = {
-
+  // rejestracja użytkownika
+  isRegister: false,
+  rActiveOne: true,
+  rActiveTwo: false,
+  rActiveThree: false,
+  rName: '',
+  rSurname:'',
+  rPhoneNumber:'',
+  rAccountType:2,
+  rLogin:'',
+  rPassword:'',
+  isCorrectRegister: false,
+  // logowanie użytkownika
   loginUser:'',
   passwordUser:'',
   idUser:'',
@@ -55,6 +67,130 @@ state = {
   isActiveOptionTwo: false,
   isActiveOptionThree: false,
   isDeleteAnnouncement: false,
+}
+// Funkcja zmieniająca isRegister na true
+handleChangeRegister = ()=>{
+  console.log('zmiana na true')
+  this.setState({
+    isRegister: true,
+  })
+}
+handleBackFromRegister = ()=>{
+  console.log('test')
+  this.setState({
+    isRegister: false,
+  })
+}
+// Funckja uzupełnia inputy na rejestracji
+handleCheckRegisterInput = (e) =>{
+
+  let value = e.target.value
+  if(e.target.name === "rName"){
+    this.setState({
+      rName: value
+    })
+    this.checkRegisterForm()
+  }
+  if(e.target.name === "rSurname"){
+    this.setState({
+      rSurname: value
+    })
+    this.checkRegisterForm()
+  }
+  if(e.target.name === "rPhoneNumber"){
+    this.setState({
+      rPhoneNumber: value
+    })
+    this.checkRegisterForm()
+  }
+  if(e.target.name === "rLogin"){
+    this.setState({
+      rLogin: value
+    })
+    this.checkRegisterForm()
+  }
+  if(e.target.name === "rPassword"){
+    this.setState({
+      rPassword: value
+    })
+    this.checkRegisterForm()
+  }
+}
+// Funkcja sprawdzająca czy inputy są poprawnie uzupełnione
+checkRegisterForm = () =>{
+  if(this.state.rName !== '' && this.state.rSurname !== '' && this.state.rPhoneNumber !== '' && this.state.rLogin !== '' && this.state.rPassword !== '' ){
+    console.log('jestem uzupełniony')
+    this.setState({
+      isCorrectRegister: true
+    })
+  }else{
+    console.log('nie jestem')
+    this.setState({
+      isCorrectRegister : false
+    })
+  }
+}
+// Funkcja wysyłająca formularz nowego użytkownika
+handleCreateNewAccount = () =>{
+  // console.log('Jest ok')
+  const data = {
+    // "user_id": 4,
+    "user_name": "amaria12345",
+    "password": "aqq123",
+    "first_name": "Andrzej",
+    "last_name": "Maria",
+    "tel_number": "696552154",
+    "is_del": "False",
+    "adddate": "2022-01-02T09:46:16.421Z",
+    "lm_date": "2022-01-03T10:46:16.421Z",
+    "user_type_id": 2
+}
+if(this.state.isCorrectRegister){
+  const url = Request.url + 'users/'
+  fetch(url, {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json',
+    },
+    body:JSON.stringify(data)
+  })
+  .then(response =>{
+    response.json()
+  })
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+}
+console.log(data)
+}
+// Funkcja zmieniający aktywny przycisk na rejestracji
+handleSetActiveButtonOnRegister = (e) =>{
+  let nameButton = e.target.name
+  console.log(nameButton)
+  if(nameButton === "one"){
+    this.setState({
+      rActiveOne: true,
+      rActiveTwo: false,
+      rActiveThree: false,
+    })
+  }
+  if(nameButton === "two"){
+    this.setState({
+      rActiveOne: false,
+      rActiveTwo: true,
+      rActiveThree: false,
+    })
+  }
+  if(nameButton === "three"){
+    this.setState({
+      rActiveOne: false,
+      rActiveTwo: false,
+      rActiveThree: true,
+    })
+  }
 }
 // Funkcja sprawdzająca inputy
 handleLoginInput = (e)=>{
@@ -268,6 +404,19 @@ handleSendAnnouncement = () =>{
         statementAddAnnouncement: true,
         addAnnouncement: false
       })
+      //  Poprawka! Teraz mamy pewność że ogłoszenia zostaną pobrane w momencie wysłania POST i gdy odpowiedź jego jest suckes
+      const API = Request.url + 'announcements/';
+      fetch(API,{
+      method: 'GET',
+      mode: 'cors'
+      }, true)
+      .then(response => response.json())
+      .then(data =>{
+        console.log(data)
+        this.setState({
+          announcementItems: data
+        })
+      })
       if(this.state.statementAddAnnouncement){
         setTimeout(()=>{
           this.setState({
@@ -284,19 +433,21 @@ handleSendAnnouncement = () =>{
   console.error('Error:', error);
 });
 
-const API = Request.url + 'announcements/';
-fetch(API,{
-  method: 'GET',
-  mode: 'cors'
-}, true)
-.then(response => response.json())
-.then(data =>{
-  // console.log(data)
-  this.setState({
-    announcementItems: data
-  })
-  console.log(data)
-})
+// const API = Request.url + 'announcements/';
+// fetch(API,{
+//   method: 'GET',
+//   mode: 'cors'
+// }, true)
+// .then(response => response.json())
+// .then(data =>{
+//   console.log(data)
+//   this.setState({
+//     announcementItems: data
+//   })
+
+//   // console.log(data)
+
+// })
 
 }
 // Zamknięcie formularza ogłoszenia
@@ -494,7 +645,11 @@ componentDidMount () {
             <Routes>
 
               <Route path="/" exact element={
-                <LoginPanel 
+                <LoginPanel
+                  isRegister={this.state.isRegister}
+                  rActiveOne={this.state.rActiveOne}
+                  rActiveTwo={this.state.rActiveTwo}
+                  rActiveThree={this.state.rActiveThree}
                   login={this.state.login} 
                   password={this.state.password} 
                   permissionUser={this.state.permissionUser}
@@ -502,6 +657,11 @@ componentDidMount () {
                   allowEntry={this.state.allowEntry}
                   isCorrectLoginUser={this.state.isCorrectLoginUser}
                   isCorrectPasswordUser={this.state.isCorrectPasswordUser}
+                  handleCreateNewAccount={this.handleCreateNewAccount}
+                  handleCheckRegisterInput={this.handleCheckRegisterInput}
+                  handleBackFromRegister={this.handleBackFromRegister}
+                  handleSetActiveButtonOnRegister={this.handleSetActiveButtonOnRegister}
+                  handleChangeRegister={this.handleChangeRegister}
                   handleLoginInput={this.handleLoginInput} 
                   checkLogIn={this.checkLogIn}
                   getUserData={()=>this.handleGetUserData()}
