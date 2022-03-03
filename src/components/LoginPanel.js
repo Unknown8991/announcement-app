@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import ModalNotification from './ModalNotification';
 const LoginPanel = (props) => {
     return ( 
         <>
@@ -10,6 +10,12 @@ const LoginPanel = (props) => {
             <div className='header-block'>AN</div>
           </div>
         </div> */}
+        {props.isDisplayNotification ?
+        <ModalNotification modalNotifi={props.modalNotifi} />
+          :
+          null
+        }
+        
         {props.isRegister ?
           <div className='register-panel'>
             <div className='col-4 register-panel__image'>
@@ -42,7 +48,8 @@ const LoginPanel = (props) => {
                 </div>
                 <div className='register-panel__items col-12'>
                   <input className='register-panel__input ' name="rPhoneNumber" type="text" placeholder='Numer telefonu' onChange={props.handleCheckRegisterInput} />
-                  <input className='register-panel__input' name="rAccountType" type="text" placeholder='Rodzaj konta' onChange={props.handleCheckRegisterInput} />
+                  {/* <input className='register-panel__input' name="rAccountType" type="text" placeholder='Rodzaj konta' onChange={props.handleCheckRegisterInput} /> */}
+                  <div className='register-panel__toogle' onClick={props.handleChangeTypeUser}>{props.rUserType === 2 ? 'Regular' : 'Buissnes'}</div>
                 </div>
                 <div className='register-panel__items'>
                   <input className='register-panel__input ' name="rLogin" type="text" placeholder='Nazwa użytkownika' onChange={props.handleCheckRegisterInput} />

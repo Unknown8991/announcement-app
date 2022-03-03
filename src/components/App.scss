@@ -90,6 +90,20 @@ html{
     color:#ca2e7c ;
   }
 }
+// Modal notifi
+.modal-notifi{
+  color: #ca2e7c;
+  font-weight: 800;
+  background: #1a1a1d;
+  border: 1px solid #48484a;
+  border-radius: 12px;
+  padding: 8px;
+  width: 500px;
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
 // Register panel
 .register-panel{
   transform: translate(-50%, -50%);
@@ -223,6 +237,16 @@ html{
     padding: 10px;
     color: #f2f2f7;
     width: 300px;
+  }
+  &__toogle{
+    color: #f2f2f7;
+    width: 300px;
+    background: linear-gradient(to right, #c20d44 0%, #ca2e7c 100%);
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 0px;
+    animation: pulse 2s infinite;
   }
 }
 // LoginPanel
@@ -532,10 +556,20 @@ html{
     font-weight: 600;
   }
 }
+.add-ann-form{
+  display: flex;
+  flex-direction: column;
+  
+}
+.textarea{
+  color: #ca2e7c;
+}
 .add-announcement-modal{
   color: #f2f2f7;
+  // color: #343435;
+
   &__item{
-    width: 500px;
+    width: 1200px;
     // height: 500px;
     background: #161616;
     border-radius: 12px;
@@ -547,8 +581,13 @@ html{
    transform: translate(-50%);
   }
   &__text{
-    font-size: 20px;
-    color: #f2f2f7;
+    font-size: 30px;
+    font-weight: 800;
+    // color: #ca2e7c;
+    background: linear-gradient(to right, #c20d44 0%, #ca2e7c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    // color: #f2f2f7;
   }
   &__form{
     display: flex;
@@ -557,24 +596,53 @@ html{
     flex-direction: column;
     margin-top: 20px;
   }
+  &__position{
+    display: flex;
+    justify-content: space-between;
+    padding-top:10px ;
+    &--last{
+      display: flex;
+      justify-content: space-between;
+      padding-top:10px ;
+    }
+    &--twice{
+      display: flex;
+      justify-content: space-between;
+      padding-top:10px ;
+    }
+  }
   &__input{
     background: #1a1a1d;
-    color: #f2f2f7;
+    // color: #f2f2f7;
+    color: #ca2e7c;
     border: 1px solid #343435;
     border-radius:12px ;
-    padding: 4px;
+    padding: 8px;
+    &--title{
+      color: red;
+    }
+    &--description{
+      background: #1a1a1d;
+      color: #f2f2f7;
+      border: 1px solid #343435;
+      border-radius:12px ;
+      padding: 8px;
+      height: 200px;
+    }
   }
   &__button{
-    margin-top: 20px;
+    margin: 30px 0px;
     border: 2px solid #ca2e7c;
     background: none;
     color: #ca2e7c;
+    width: 200px;
     padding: 10px;
     border-radius: 10px;
     font-weight:600;
     &--disable{
       // cursor:default;
-      margin-top: 20px;
+      margin: 30px 0px;
+      width: 200px;
       border: 2px solid #343435;
       background: none;
       color: #343435;
@@ -602,16 +670,26 @@ html{
     }
   }
   &--text{
-  color: #f2f2f7;
+  // color: #f2f2f7;
+  // color: #343435;
+  background: linear-gradient(to right, #c20d44 0%, #ca2e7c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  text-align: start;
+
   }
 }
 .button-exit{
   color: #ca2e7c;
-  border: 1px solid #ca2e7c;
+  font-weight: 800;
+  border: none;
+  background: none;
   border-radius: 10px;
   padding: 3px;
   margin: 10px;
   text-align: center;
+
   cursor: pointer;
   &__end{
     display: flex;
@@ -717,6 +795,58 @@ html{
       padding-right: 8px;
       // height: 100%;
       margin-top: 40px;
+    }
+  }
+}
+.confirmation-action{
+  color: #f2f2f7;
+  font-size: 20px;
+  // background: #161616;
+  background: #1a1a1d;
+  width: 500px;
+  position: absolute;
+  z-index: 1;
+  top: 22%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  
+  // border: 1px solid #ca2e7c;
+border: 1px solid #343435;
+// box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+// box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 12px;
+  padding: 10px;
+  &__header{
+    margin-top: 20px;
+  }
+  &__buttons{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0px;
+    font-size: 14px;
+    &--yes{
+      // box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+      background: #1a1a1d;
+      color: #f2f2f7;
+      border: 2px solid #ca2e7c;
+      border-radius:12px ;
+      padding: 8px;
+      width: 80px;
+      &:active{
+        border: 2px solid #343435;
+      }
+    }
+    &--no{
+      background: #1a1a1d;
+      color: #f2f2f7;
+      border: 2px solid #ca2e7c;
+      border-radius:12px ;
+      padding: 8px;
+      width: 80px;
+      &:active{
+        border: 2px solid #343435;
+      }
     }
   }
 }

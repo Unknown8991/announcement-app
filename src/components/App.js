@@ -10,6 +10,9 @@ import Request from '../utils/Request';
 
 class App extends Component {
 state = {
+  // komunikat dla powiadomień
+  isDisplayNotification: false,
+  modalNotifi: '',
   // rejestracja użytkownika
   isRegister: false,
   rActiveOne: true,
@@ -18,9 +21,10 @@ state = {
   rName: '',
   rSurname:'',
   rPhoneNumber:'',
-  rAccountType:2,
+  // rAccountType:2,
   rLogin:'',
   rPassword:'',
+  rUserType: 1,
   isCorrectRegister: false,
   // logowanie użytkownika
   loginUser:'',
@@ -66,7 +70,11 @@ state = {
   isActiveOptionOne: true,
   isActiveOptionTwo: false,
   isActiveOptionThree: false,
+  showModalDelete: false,
+  isConfirmDelete: false,
   isDeleteAnnouncement: false,
+  exitConfirmDelete: false,
+  idDelete: '',
 }
 // Funkcja zmieniająca isRegister na true
 handleChangeRegister = ()=>{
@@ -116,6 +124,18 @@ handleCheckRegisterInput = (e) =>{
     this.checkRegisterForm()
   }
 }
+// Funkcja obsługuję zmianę usera na formularzu rejestracji
+handleChangeTypeUser = () =>{
+  if(this.state.rUserType === 2){
+    this.setState({
+      rUserType: 3
+    })
+  }else{
+    this.setState({
+      rUserType: 2,
+    })
+  }
+}
 // Funkcja sprawdzająca czy inputy są poprawnie uzupełnione
 checkRegisterForm = () =>{
   if(this.state.rName !== '' && this.state.rSurname !== '' && this.state.rPhoneNumber !== '' && this.state.rLogin !== '' && this.state.rPassword !== '' ){
@@ -130,20 +150,21 @@ checkRegisterForm = () =>{
     })
   }
 }
+//  Funkcja
 // Funkcja wysyłająca formularz nowego użytkownika
 handleCreateNewAccount = () =>{
   // console.log('Jest ok')
   const data = {
     // "user_id": 4,
-    "user_name": "amaria12345",
-    "password": "aqq123",
-    "first_name": "Andrzej",
-    "last_name": "Maria",
-    "tel_number": "696552154",
+    "user_name": this.state.rLogin,
+    "password": this.state.rPassword,
+    "first_name": this.state.rName,
+    "last_name": this.state.rSurname,
+    "tel_number": this.state.rPhoneNumber,
     "is_del": "False",
     "adddate": "2022-01-02T09:46:16.421Z",
     "lm_date": "2022-01-03T10:46:16.421Z",
-    "user_type_id": 2
+    "user_type_id": this.state.rUserType
 }
 if(this.state.isCorrectRegister){
   const url = Request.url + 'users/'
@@ -156,9 +177,33 @@ if(this.state.isCorrectRegister){
   })
   .then(response =>{
     response.json()
+    console.log(response.status)
+    if(response.status === 201){
+      this.setState({
+        isRegister: false,
+        // isDisplayNotification: true,
+        
+      })
+      setTimeout(()=>{
+        if(this.state.isRegister === false){
+          this.setState({
+            isDisplayNotification: true,
+            modalNotifi: 'Twoje konto zostało utworzone!'
+          })
+        }
+        if(this.state.isDisplayNotification){
+          setTimeout(()=>{
+            this.setState({
+              isDisplayNotification: false,
+              modalNotifi: ''
+            })
+          },3000)
+        }
+      },300)
+    }
   })
   .then(data => {
-    console.log('Success:', data);
+    console.log('Success:');
   })
   .catch((error) => {
     console.error('Error:', error);
@@ -563,30 +608,74 @@ handleAddToFavourites = (id) =>{
     }
   })
 }
+//  Usun - Potwierdzenie usunięcia
+handleConfirmDeleteAnnouncement = () =>{
+  console.log('zmiana')
+  this.setState({
+    isConfirmDelete: true
+  })
+
+
+    const API = Request.url + `announcements/${this.state.idDelete}`;
+    fetch(API,{
+      method: 'DELETE',
+      mode: 'cors'
+    }, true).then(response =>{
+      const API = Request.url + `announcements/user/${this.state.idUser}`;
+        console.log(API)
+        fetch(API,{
+          method: 'GET',
+          mode: 'cors'
+        }, true)
+        .then(response => response.json())
+        .then(data =>{
+          this.setState({
+            myAnnouncements: data,
+            showModalDelete: false,
+          })
+        })
+      })
+
+}
+// Zamknięcie modala do usuwania
+handleCloseDeleteModal = () =>{
+  this.setState({
+    showModalDelete: false,
+  })
+}
+//  Złapanie elementu do usunięcia
 handleDeleteAnnouncements = (id) =>{
   const arr = [...this.state.myAnnouncements]
  
   const arrayMyAnnouncements = arr.map(element =>{
+    console.log(element.announcement_id)
     if(element.announcement_id === id){
-      const API = Request.url + `announcements/${element.announcement_id}`;
-      fetch(API,{
-        method: 'DELETE',
-        mode: 'cors'
-      }, true).then(response =>{
-        const API = Request.url + `announcements/user/${this.state.idUser}`;
-          console.log(API)
-          fetch(API,{
-            method: 'GET',
-            mode: 'cors'
-          }, true)
-          .then(response => response.json())
-          .then(data =>{
-            this.setState({
-              myAnnouncements: data
-            })
-            console.log(data)
-          })
-        })
+      this.setState({
+        showModalDelete: true,
+        idDelete: element.announcement_id
+      })
+      // if(this.state.isConfirmDelete){
+
+      //   const API = Request.url + `announcements/${element.announcement_id}`;
+      //   fetch(API,{
+      //     method: 'DELETE',
+      //     mode: 'cors'
+      //   }, true).then(response =>{
+      //     const API = Request.url + `announcements/user/${this.state.idUser}`;
+      //       console.log(API)
+      //       fetch(API,{
+      //         method: 'GET',
+      //         mode: 'cors'
+      //       }, true)
+      //       .then(response => response.json())
+      //       .then(data =>{
+      //         this.setState({
+      //           myAnnouncements: data
+      //         })
+      //         // console.log(data)
+      //       })
+      //     })
+      // }
     }
   }
   )
@@ -647,6 +736,9 @@ componentDidMount () {
               <Route path="/" exact element={
                 <LoginPanel
                   isRegister={this.state.isRegister}
+                  rUserType={this.state.rUserType}
+                  isDisplayNotification={this.state.isDisplayNotification}
+                  modalNotifi={this.state.modalNotifi}
                   rActiveOne={this.state.rActiveOne}
                   rActiveTwo={this.state.rActiveTwo}
                   rActiveThree={this.state.rActiveThree}
@@ -657,6 +749,7 @@ componentDidMount () {
                   allowEntry={this.state.allowEntry}
                   isCorrectLoginUser={this.state.isCorrectLoginUser}
                   isCorrectPasswordUser={this.state.isCorrectPasswordUser}
+                  handleChangeTypeUser={this.handleChangeTypeUser}
                   handleCreateNewAccount={this.handleCreateNewAccount}
                   handleCheckRegisterInput={this.handleCheckRegisterInput}
                   handleBackFromRegister={this.handleBackFromRegister}
@@ -691,6 +784,7 @@ componentDidMount () {
                     handleSendAnnouncement={this.handleSendAnnouncement}
                     handleUpdateStateAnnouncementForm={this.handleUpdateStateAnnouncementForm}
                     handleCloseForm={this.handleCloseForm}
+
                   /> 
                 }
               />
@@ -728,8 +822,12 @@ componentDidMount () {
                 userPassword={this.state.passwordUser}
                 userNumberPhone={this.state.phoneNumber}
                 announcementItems={this.state.announcementItems}
+                isConfirmDelete={this.state.isConfirmDelete}
+                showModalDelete={this.state.showModalDelete}
                 handleDeleteAnnouncements={this.handleDeleteAnnouncements}
                 changeActiveProfilOption={this.handleChangeActiveProfilOption}
+                handleConfirmDeleteAnnouncement={this.handleConfirmDeleteAnnouncement}
+                handleCloseDeleteModal={this.handleCloseDeleteModal}
               />}
               />
             </Routes>

@@ -20,6 +20,7 @@ const MyAnnItems = (props) => {
                     fleet={fleet}
                     code={code}
                     handleDeleteAnnouncements={props.handleDeleteAnnouncements}
+                    handleConfirmDeleteAnnouncement={props.handleConfirmDeleteAnnouncement}
                 />
             )
         }

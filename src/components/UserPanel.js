@@ -46,7 +46,11 @@ const UserPanel = (props) => {
                             {props.isActiveOptionTwo ? 
                                 <MyAnnouncements
                                     myAnnouncements={props.myAnnouncements}
+                                    showModalDelete={props.showModalDelete}
+                                    isConfirmDelete={props.isConfirmDelete}
                                     handleDeleteAnnouncements={props.handleDeleteAnnouncements}
+                                    handleConfirmDeleteAnnouncement={props.handleConfirmDeleteAnnouncement}
+                                    handleCloseDeleteModal={props.handleCloseDeleteModal}
                                 /> : null}
                             {props.isActiveOptionThree ? 
                                 <FavoriteAnnouncements
