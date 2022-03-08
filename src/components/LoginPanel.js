@@ -22,7 +22,10 @@ const LoginPanel = (props) => {
               <div className='register-panel__large-text'>
                   AN
               </div>
-              <div className='register-panel__normal-text'>Rejestracja Announcement App</div>
+              <div className='register-panel__normal-text'>
+                Rejestracja Announcement App
+                
+                </div>
               <div className='register-panel__ball-set col-12'>
                 
                 <button className={props.rActiveOne ? 'register-panel__ball--active': 'register-panel__ball'} name="one" onClick={props.handleSetActiveButtonOnRegister}>1</button>
@@ -67,8 +70,13 @@ const LoginPanel = (props) => {
 
         <div className='container  row-box col-12'>
           <div className='welcome-text col-6'>
-            <div className='welcome-text__bold'>Witaj w  <div className='welcome-text__bold--colorful'>Announcement App!</div></div>
-            <div className='welcome-text__semi-bold'>Zaloguj się, aby eksplorować aplikację</div>
+            <div className='welcome-text__bold'>Witaj! w aplikacji do wspomagania sprzedaży reklam zewnętrznych 
+            {/* <div className='welcome-text__bold--colorful'>
+              Announcement App!
+              </div> */}
+            </div>
+            <div className='welcome-text__semi-bold'>Jeśli posiadasz przestrzeń, którą możesz zagospodarować pod reklamę, zrób to z nami!</div>
+            <div className='welcome-text__semi-bold'>Jeśli chciałbyś zareklamować swój produkt i zainteresować tym potencjalnych klientów, to miejsce dla Ciebie!</div>
             <div className='welcome-text__register'>Nie posiadasz konta? Zarejestruj się</div>
             <button className='welcome-register-button' onClick={props.handleChangeRegister}>Zarejestruj się</button>
           </div>

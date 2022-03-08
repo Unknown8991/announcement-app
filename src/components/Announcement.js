@@ -2,6 +2,20 @@ import React from 'react';
 
 const Announcement = (props) => {
     return ( 
+    <>
+            {/* {props.isShowDetails ? 
+                <div className='col-10 announcement__details'>
+                    <div>
+                        {props.id}. {props.title}
+                    </div>
+                    <div>
+                        {props.description}
+                    </div>
+                </div> 
+            :
+                null
+            } */}
+   
         <div className='col-12 announcement-list__item'>
             <div className=' announcement announcement__image'>
                 An
@@ -16,8 +30,11 @@ const Announcement = (props) => {
                     {props.description}
                 </div>
             </div>
-            <div className='col-2 announcement announcement__adding-info'>
+            <div className='col-3 announcement announcement__adding-info'>
                 <div className='col-12 announcement-favourite'>
+                    <div className='announcement__adding-info--show-details' onClick={()=>props.handleShowDetails(props.id)}>
+                        Pokaż szczegóły
+                    </div>
                     <div className='announcement__adding-info--favourite' onClick={()=>props.handleAddToFavourites(props.id)}>
                         U
                     </div>
@@ -28,6 +45,7 @@ const Announcement = (props) => {
             </div>
             </div>
         </div>
+    </>
      );
 }
  

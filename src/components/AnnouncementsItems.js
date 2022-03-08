@@ -28,6 +28,8 @@ const AnnouncementsItems = (props) => {
             fleet={fleet}
             code={code}
             handleAddToFavourites={props.handleAddToFavourites}
+            handleShowDetails={props.handleShowDetails}
+            isShowDetails={props.isShowDetails}
         />
         )
         });
@@ -44,6 +46,37 @@ const AnnouncementsItems = (props) => {
     // ) )
     return ( 
         <div>
+            {props.isShowDetails ? 
+                <div className=' announcement__details'>
+                    <div className='announcement__details--button-position'>
+                        <button className='announcement__details--button' onClick={props.handleCloseDetails}>Zamknij</button>
+                    </div>
+                    <div className='details-position'>
+                    <div className='col-3 details-left'>
+                        <div className='announcement__details--image'>
+                                An
+                        </div>
+                    </div>
+                    <div className='col-9 details-right'>
+
+                        <div className='announcement__details--title'>
+                            {props.dAnnouncementId}. {props.dTitleAnnnouncement}
+                        </div>
+                        <div className='announcement__details--description'>
+                            {props.dDescriptionAnnnouncement}
+                        </div>
+                        <div className='details-right--column'>
+                            <div className='announcement__details--location'>Lokalizacja: {props.dLocation === '' ? 'Brak' : props.dLocation}</div>
+                            <div className='announcement__details--end'>Data zakończenia: {props.dEndDat}</div>    
+                        </div>
+                    </div>                    
+                    </div>                
+
+                    
+                </div> 
+            :
+                null
+            }
             {/* {announcements} */}
             {searchText}
         </div>

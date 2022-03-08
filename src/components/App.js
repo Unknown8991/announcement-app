@@ -45,6 +45,15 @@ state = {
   // wyszukiwarka
   activeSearch: false,
   searchText: '',
+  // pokaż szczegóły
+  isShowDetails: false,
+  dAnnouncementId:null,
+  dTitleAnnnouncement:'',
+  dDescriptionAnnnouncement:'',
+  dEndDat:'',
+  dLocation: '',
+  // dTitleAnnnouncement:'',
+  // dTitleAnnnouncement:'',
   // formularz announcement
   title:'',
   description: '',
@@ -610,7 +619,7 @@ handleAddToFavourites = (id) =>{
 }
 //  Usun - Potwierdzenie usunięcia
 handleConfirmDeleteAnnouncement = () =>{
-  console.log('zmiana')
+  // console.log('zmiana')
   this.setState({
     isConfirmDelete: true
   })
@@ -622,7 +631,7 @@ handleConfirmDeleteAnnouncement = () =>{
       mode: 'cors'
     }, true).then(response =>{
       const API = Request.url + `announcements/user/${this.state.idUser}`;
-        console.log(API)
+        // console.log(API)
         fetch(API,{
           method: 'GET',
           mode: 'cors'
@@ -633,8 +642,24 @@ handleConfirmDeleteAnnouncement = () =>{
             myAnnouncements: data,
             showModalDelete: false,
           })
+          // Dodanie odświeżenia listy announcement po usunięciu mojego ogłoszenia
+          const API2 = Request.url + 'announcements/';
+          fetch(API2,{
+            method: 'GET',
+            mode: 'cors'
+          }, true)
+          .then(response => response.json())
+          .then(data =>{
+
+            this.setState({
+              announcementItems: data
+            })
+            console.log(data)
+          })
         })
       })
+
+
 
 }
 // Zamknięcie modala do usuwania
@@ -719,6 +744,59 @@ handleGetUserData = ()=>{
   })
 
 }
+// Funkcja umożliwiająca podgląd ogłoszenia
+handleShowDetails = (id) =>{
+  // console.log(id)
+  const arr = [...this.state.announcementItems]
+  const array = arr.map(element =>{
+    if(element.announcement_id === id){
+
+      console.log(element.announcement_id)
+      console.log(id)
+      this.setState({
+        dAnnouncementId: element.announcement_id,
+        isShowDetails: true,
+      })
+      const API = Request.url + `announcements/${element.announcement_id}`
+      console.log(API)
+      fetch(API,{
+        method: 'GET',
+        mode: 'cors'
+      }, true)
+      .then(response => response.json())
+      .then(data =>{
+        // console.log(data[0].address.address_id)
+        if(data[0].address !==null){
+          this.setState({
+            dAnnouncementId: data[0].announcement_id,
+            dTitleAnnnouncement: data[0].title,
+            dDescriptionAnnnouncement: data[0].description,
+            dEndDat: data[0].end_dat.substr(0,10),
+            dLocation: data[0].address.city,
+          })
+        }else{
+          // W przypadku gdy nie ma podanego adresu
+          this.setState({
+            dAnnouncementId: data[0].announcement_id,
+            dTitleAnnnouncement: data[0].title,
+            dDescriptionAnnnouncement: data[0].description,
+            dEndDat: data[0].end_dat.substr(0,10),
+          })
+        }
+
+      })
+
+    }
+    
+  })
+
+}
+handleCloseDetails = ()=>{
+  this.setState({
+    isShowDetails: false,
+  })
+}
+
 
 // Do poprawki jeszcze
 componentDidMount () {
@@ -776,6 +854,12 @@ componentDidMount () {
                     addAnnouncement={this.state.addAnnouncement} 
                     isFormAnnouncementCorrect={this.state.isFormAnnouncementCorrect}
                     statementAddAnnouncement={this.state.statementAddAnnouncement}
+                    isShowDetails={this.state.isShowDetails}
+                    dAnnouncementId={this.state.dAnnouncementId}
+                    dTitleAnnnouncement={this.state.dTitleAnnnouncement}
+                    dDescriptionAnnnouncement={this.state.dDescriptionAnnnouncement}
+                    dLocation={this.state.dLocation}
+                    dEndDat={this.state.dEndDat}
                     handleActiveSearch={this.handleActiveSearch}
                     handleChangeForm={this.handleChangeForm}
                     handleInputAnnouncement={this.handleInputAnnouncement}
@@ -784,7 +868,8 @@ componentDidMount () {
                     handleSendAnnouncement={this.handleSendAnnouncement}
                     handleUpdateStateAnnouncementForm={this.handleUpdateStateAnnouncementForm}
                     handleCloseForm={this.handleCloseForm}
-
+                    handleShowDetails={this.handleShowDetails}
+                    handleCloseDetails={this.handleCloseDetails}
                   /> 
                 }
               />

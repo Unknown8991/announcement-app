@@ -1,5 +1,6 @@
 import React from 'react';
-import Header from './Header';
+// import Header from './Header';
+import HeaderForUserPanel from './HeaderForUserPanel';
 import MyProfilData from './MyProfilData';
 import MyAnnouncements from './MyAnnouncements';
 import FavoriteAnnouncements from './FavoriteAnnouncements';
@@ -8,7 +9,7 @@ import FavoriteAnnouncements from './FavoriteAnnouncements';
 const UserPanel = (props) => {
     return ( 
         <>
-        <Header />
+        <HeaderForUserPanel />
         {/* getUserData={props.getUserData} */}
         <div className='container' >
             {/* <div className=''>Panel użytkownika</div> */}

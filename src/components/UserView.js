@@ -33,6 +33,14 @@ const UserView = (props) => {
                         searchText={props.searchText} 
                         handleAddToFavourites={props.handleAddToFavourites}
                         announcementItems={props.announcementItems}
+                        handleShowDetails={props.handleShowDetails}
+                        isShowDetails={props.isShowDetails}
+                        dAnnouncementId={props.dAnnouncementId}
+                        dDescriptionAnnnouncement={props.dDescriptionAnnnouncement}
+                        dTitleAnnnouncement={props.dTitleAnnnouncement}
+                        dEndDat={props.dEndDat}
+                        dLocation={props.dLocation}
+                        handleCloseDetails={props.handleCloseDetails}
                     />
                 </div>
             </div>
