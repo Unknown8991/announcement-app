@@ -5,7 +5,10 @@ const FavoriteAnnouncements = (props) => {
 
     return ( 
         <div>
-            <FavouriteItems myFavourites={props.myFavourites}/>
+            <FavouriteItems 
+                myFavourites={props.myFavourites}
+                handleRemoveFromWatched={props.handleRemoveFromWatched}
+            />
         </div>
      );
 }

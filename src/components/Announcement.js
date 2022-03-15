@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Announcement = (props) => {
+
     return ( 
     <>
             {/* {props.isShowDetails ? 
@@ -35,8 +36,8 @@ const Announcement = (props) => {
                     <div className='announcement__adding-info--show-details' onClick={()=>props.handleShowDetails(props.id)}>
                         Pokaż szczegóły
                     </div>
-                    <div className='announcement__adding-info--favourite' onClick={()=>props.handleAddToFavourites(props.id)}>
-                        U
+                    <div className={props.watched.find(element => element === props.id) ? 'announcement__adding-info--watched-active': 'announcement__adding-info--favourite'} onClick={()=>props.handleAddToFavourites(props.id)}>
+                        U 
                     </div>
                 </div>
                 <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div> 

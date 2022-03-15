@@ -45,6 +45,9 @@ state = {
   // wyszukiwarka
   activeSearch: false,
   searchText: '',
+  isFilterActive: false,
+  activeFilter: '',
+  allLocalizationFilter: false,
   // pokaż szczegóły
   isShowDetails: false,
   dAnnouncementId:null,
@@ -52,8 +55,12 @@ state = {
   dDescriptionAnnnouncement:'',
   dEndDat:'',
   dLocation: '',
+  dphoneNumber: '',
   // dTitleAnnnouncement:'',
   // dTitleAnnnouncement:'',
+  // Obserwowane widok z userView
+  isWatched: false,
+  watched:[],
   // formularz announcement
   title:'',
   description: '',
@@ -87,13 +94,13 @@ state = {
 }
 // Funkcja zmieniająca isRegister na true
 handleChangeRegister = ()=>{
-  console.log('zmiana na true')
+  // console.log('zmiana na true')
   this.setState({
     isRegister: true,
   })
 }
 handleBackFromRegister = ()=>{
-  console.log('test')
+  // console.log('test')
   this.setState({
     isRegister: false,
   })
@@ -346,10 +353,27 @@ checkLogIn = () =>{
       this.setState({
         announcementItems: data
       })
-      console.log(data)
+      // console.log(data)
+      
+      const API2 = Request.url + `favourites/user/${this.state.idUser}`;
+      fetch(API2,{
+        method: 'GET',
+        mode: 'cors'
+      },true)
+      .then(response => response.json())
+      .then(data =>{
+        // console.log(data)
+        const array = data;
+        // console.log(array.announcement_id)
+        const idWatched = array.map(item => item.announcement_id)
+        // console.log(idWatched)
+        this.setState({
+          watched: idWatched
+        })
+      })
+
     })
-    // console.log(this.state.announcementItems)
-    
+ 
     // Pobranie info o użytkowniku
     
 
@@ -512,7 +536,7 @@ handleCloseForm = () =>{
 }
 // Uruchomienie wyszukiwarki
 handleActiveSearch =()=>{
-  console.log("działa")
+  // console.log("działa")
   this.setState({
     activeSearch: !this.state.activeSearch,
   })
@@ -520,10 +544,65 @@ handleActiveSearch =()=>{
 // Działanie wyszukiwarki
 handleChangeForm = (e) =>{
   let text = e.target.value;
-  console.log('ok')
+  // console.log('ok')
   this.setState({
     searchText: text,
   })
+}
+// Aktywacja filtrów
+handleActiveFilters = () =>{
+  this.setState({
+    isFilterActive: !this.state.isFilterActive,
+    activeFilter: '',
+    allLocalizationFilter: false,
+  })
+  console.log('filtry')
+}
+// Weryfikacja klikniętego elemetnu w filtrach
+handleVeryficationActiveLocalization = (e)=>{
+  // console.log(e.target.id)
+  if(e.target.id === "1"){
+
+    this.setState({
+      activeFilter: 'Katowice',
+      allLocalizationFilter: true,
+    })
+  }
+  if(e.target.id === "2"){
+
+    this.setState({
+      activeFilter: 'Sosnowiec',
+      allLocalizationFilter: true,
+    })
+  }
+  if(e.target.id === "3"){
+
+    this.setState({
+      activeFilter: 'Tychy',
+      allLocalizationFilter: true,
+    })
+  }
+  if(e.target.id === "4"){
+
+    this.setState({
+      activeFilter: '',
+      allLocalizationFilter: true,
+    })
+  }
+  if(e.target.id === "5"){
+
+    this.setState({
+      activeFilter: '',
+      isFilterActive: false,
+      allLocalizationFilter: false,
+    })
+  }
+  if(e.target.id === "6"){
+    this.setState({
+      allLocalizationFilter: false,
+    })
+  }
+
 }
 // Zmiana aktywnego przycisku w profilu użytkownika
 handleChangeActiveProfilOption = (e)=>{
@@ -541,7 +620,7 @@ handleChangeActiveProfilOption = (e)=>{
   }
   if(nameButton === "two"){
     const API = Request.url + `announcements/user/${this.state.idUser}`;
-    console.log(API)
+    // console.log(API)
     fetch(API,{
       method: 'GET',
       mode: 'cors'
@@ -553,7 +632,7 @@ handleChangeActiveProfilOption = (e)=>{
       })
       // console.log(data)
     })
-    console.log(nameButton)
+    // console.log(nameButton)
     this.setState({
       isActiveOptionOne: false,
       isActiveOptionTwo: true,
@@ -586,18 +665,19 @@ handleChangeActiveProfilOption = (e)=>{
 }
 // Dodawanie do ulubionych
 handleAddToFavourites = (id) =>{
-  console.log('dodaj')
+  // console.log('dodaj')
   const arr = [...this.state.announcementItems]
 
   const arrayFavourites = arr.map(element =>{
     if(element.announcement_id === id){
+        
 
-      console.log(element.favourite_by)
       const data = 
         {
           "user": this.state.idUser,
           "announcement": element.announcement_id,
         }
+
         
       const url = Request.url + 'favourites/';
       fetch(url, {
@@ -609,13 +689,30 @@ handleAddToFavourites = (id) =>{
       })
       .then(response =>{
         response.json()
-        console.log(response.status)
+        // console.log(response.status)
+        const API2 = Request.url + `favourites/user/${this.state.idUser}`;
+        fetch(API2,{
+          method: 'GET',
+          mode: 'cors'
+        },true)
+        .then(response => response.json())
+        .then(data =>{
+          // console.log(data)
+          const array = data;
+          // console.log(array.announcement_id)
+          const idWatched = array.map(item => item.announcement_id)
+          // console.log(idWatched)
+          this.setState({
+            watched: idWatched
+          })
+        })
       })
       .catch((error)=>{
         console.log('Error', error)
       })
     }
   })
+  return arrayFavourites
 }
 //  Usun - Potwierdzenie usunięcia
 handleConfirmDeleteAnnouncement = () =>{
@@ -654,7 +751,7 @@ handleConfirmDeleteAnnouncement = () =>{
             this.setState({
               announcementItems: data
             })
-            console.log(data)
+            // console.log(data)
           })
         })
       })
@@ -673,7 +770,7 @@ handleDeleteAnnouncements = (id) =>{
   const arr = [...this.state.myAnnouncements]
  
   const arrayMyAnnouncements = arr.map(element =>{
-    console.log(element.announcement_id)
+    // console.log(element.announcement_id)
     if(element.announcement_id === id){
       this.setState({
         showModalDelete: true,
@@ -738,9 +835,9 @@ handleGetUserData = ()=>{
       // userPassword: this.state.userData[1].password,
       // userNumberPhone: this.state.userData[1].tel_number,
     })
-    console.log(this.state.userData)
-    const test = this.state.userData.filter(element => element.first_name === "Czarek")
-    console.log(test)
+    // console.log(this.state.userData)
+    // const test = this.state.userData.filter(element => element.first_name === "Czarek")
+    // // console.log(test)
   })
 
 }
@@ -751,21 +848,21 @@ handleShowDetails = (id) =>{
   const array = arr.map(element =>{
     if(element.announcement_id === id){
 
-      console.log(element.announcement_id)
-      console.log(id)
+      // console.log(element.announcement_id)
+      // console.log(id)
       this.setState({
         dAnnouncementId: element.announcement_id,
         isShowDetails: true,
       })
       const API = Request.url + `announcements/${element.announcement_id}`
-      console.log(API)
+      // console.log(API)
       fetch(API,{
         method: 'GET',
         mode: 'cors'
       }, true)
       .then(response => response.json())
       .then(data =>{
-        // console.log(data[0].address.address_id)
+        console.log(data[0].user_id)
         if(data[0].address !==null){
           this.setState({
             dAnnouncementId: data[0].announcement_id,
@@ -783,7 +880,20 @@ handleShowDetails = (id) =>{
             dEndDat: data[0].end_dat.substr(0,10),
           })
         }
-
+        if(data[0].user_id !== null){
+          const API = Request.url + `users/${data[0].user_id}`
+          fetch(API,{
+            method: 'GET',
+            mode: 'cors'
+          }, true)
+          .then(response => response.json())
+          .then(data =>{
+            console.log(data.tel_number)
+            this.setState({
+              dphoneNumber: data.tel_number,
+            })
+          })
+        }
       })
 
     }
@@ -791,11 +901,40 @@ handleShowDetails = (id) =>{
   })
 
 }
+// Zamknięcie podglądu
 handleCloseDetails = ()=>{
   this.setState({
     isShowDetails: false,
   })
 }
+// Usunięcie ogłoszenia z obserowanych
+handleRemoveFromWatched = (id)=>{
+  console.log(id)
+  // const arr = [...this.state.announcementItems]
+  // const API = Request.url + `favourites/user/${this.state.idUser}`
+  // console.log(API)
+  // fetch(API,{
+  //   method: 'DELETE',
+  //   mode: 'cors',
+  // }, true)
+  // .then(response =>{
+  //   const API2 = Request.url + `favourites/user/${this.state.idUser}`;
+  //   fetch(API,{
+  //     method: 'GET',
+  //     mode: 'cors'
+  //   }, true)
+  //   .then(response => response.json())
+  //   .then(data =>{
+  //     this.setState({
+  //       myFavourites: data
+  //     })
+  //     // console.log(data)
+  //   }) 
+  // })
+  // .then(response => response.json())
+  // .then(data =>console.log(data))
+}
+
 
 
 // Do poprawki jeszcze
@@ -860,6 +999,12 @@ componentDidMount () {
                     dDescriptionAnnnouncement={this.state.dDescriptionAnnnouncement}
                     dLocation={this.state.dLocation}
                     dEndDat={this.state.dEndDat}
+                    dphoneNumber={this.state.dphoneNumber}
+                    isWatched={this.state.isWatched}
+                    watched={this.state.watched}
+                    isFilterActive={this.state.isFilterActive}
+                    activeFilter={this.state.activeFilter}
+                    allLocalizationFilter={this.state.allLocalizationFilter}
                     handleActiveSearch={this.handleActiveSearch}
                     handleChangeForm={this.handleChangeForm}
                     handleInputAnnouncement={this.handleInputAnnouncement}
@@ -870,6 +1015,8 @@ componentDidMount () {
                     handleCloseForm={this.handleCloseForm}
                     handleShowDetails={this.handleShowDetails}
                     handleCloseDetails={this.handleCloseDetails}
+                    handleActiveFilters={this.handleActiveFilters}
+                    handleVeryficationActiveLocalization={this.handleVeryficationActiveLocalization}
                   /> 
                 }
               />
@@ -913,6 +1060,8 @@ componentDidMount () {
                 changeActiveProfilOption={this.handleChangeActiveProfilOption}
                 handleConfirmDeleteAnnouncement={this.handleConfirmDeleteAnnouncement}
                 handleCloseDeleteModal={this.handleCloseDeleteModal}
+                handleRemoveFromWatched={this.handleRemoveFromWatched}
+                
               />}
               />
             </Routes>

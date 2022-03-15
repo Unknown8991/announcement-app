@@ -56,6 +56,7 @@ const UserPanel = (props) => {
                             {props.isActiveOptionThree ? 
                                 <FavoriteAnnouncements
                                     myFavourites={props.myFavourites}
+                                    handleRemoveFromWatched={props.handleRemoveFromWatched}
                                 /> : null}
                         </div>
                     </div>

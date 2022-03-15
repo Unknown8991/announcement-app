@@ -12,7 +12,11 @@ const UserView = (props) => {
             handleChangeForm={props.handleChangeForm}
             activeSearch={props.activeSearch}
             handleActiveSearch={props.handleActiveSearch}
-            
+            handleActiveFilters={props.handleActiveFilters}
+            isFilterActive={props.isFilterActive}
+            activeFilter={props.activeFilter}
+            allLocalizationFilter={props.allLocalizationFilter}
+            handleVeryficationActiveLocalization={props.handleVeryficationActiveLocalization}
         />
             {props.statementAddAnnouncement ? 
             <ModalStatementAddAnnouncement />
@@ -40,7 +44,13 @@ const UserView = (props) => {
                         dTitleAnnnouncement={props.dTitleAnnnouncement}
                         dEndDat={props.dEndDat}
                         dLocation={props.dLocation}
+                        dphoneNumber={props.dphoneNumber}
                         handleCloseDetails={props.handleCloseDetails}
+                        isWatched={props.isWatched}
+                        watched={props.watched}
+                        activeFilter={props.activeFilter}
+                        isFilterActive={props.isFilterActive}
+                        allLocalizationFilter={props.allLocalizationFilter}
                     />
                 </div>
             </div>

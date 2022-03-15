@@ -80,6 +80,7 @@ html{
     align-items: center;
     justify-content: center;
     border-left: 1px solid #343435;
+    cursor: pointer;
   }
   &--active{
     background: none;
@@ -88,6 +89,76 @@ html{
     outline: none;
     margin-left: 4px;
     color:#ca2e7c ;
+  }
+}
+.filter-bar{
+  opacity: 0;
+  margin: 10px 200px;
+  border: 1px solid #343435;
+  background: #1a1a1d;
+  border-radius: 12px;
+  color: #ca2e7c;
+  padding: 8px 0px;
+  height: 0;
+  visibility: hidden;
+  transition:  opacity 0.2s linear, height 0.1s linear,;
+  &__active{
+
+    height: 100px;
+    margin: 10px 200px;
+    border: 1px solid #343435;
+    background: #1a1a1d;
+    border-radius: 12px;
+    color: #ca2e7c;
+    padding: 8px 0px;
+    transition:  opacity 0.2s linear, height 0.1s linear,;
+  }
+  &__title{
+    color: #f2f2f7;
+    font-size: 12px;
+    text-align: left;
+    padding-left: 10px;
+  }
+  &__row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+  &__items{
+    display: flex;
+    font-size: 14px;
+    // border: 1px solid #ca2e7c;
+    border: 1px solid #343435;
+    color:  #343435;
+    border-radius: 12px;
+    padding: 3px 7px;
+    cursor: pointer;
+    transition:  color 0.2s linear, border 0.2s linear;
+    &--active{
+      display: flex;
+      font-size: 14px;
+      border: 1px solid #ca2e7c;
+      color:  #ca2e7c;
+      border-radius: 12px;
+      padding: 3px 7px;
+      transition:  color 0.2s linear, border 0.2s linear;
+      cursor: pointer;
+    }
+    transition:  opacity 0.2s linear;
+    &--clean{
+      color: #f2f2f7;
+      font-size: 12px;
+      border: 1px solid #f2f2f7;
+      border-radius: 12px;
+      margin-top: 10px;
+      cursor: pointer;
+      padding:2px 8px ;
+      transition:  opacity 0.2s linear;
+    }
+  }
+  &__end{
+    display: flex;
+    justify-content: flex-end;
   }
 }
 // Modal notifi
@@ -490,10 +561,30 @@ html{
       justify-content: center;
       color: #343435;
       cursor: pointer;
-      &:active{
-        border: 1px solid #ca2e7c;
-        color: #ca2e7c;
-      }
+      // &:active{
+      //   border: 1px solid #ca2e7c;
+      //   color: #ca2e7c;
+      // }
+    }
+    &--watched-active{
+      border: 1px solid #ca2e7c;
+      color: #ca2e7c;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &--remove-watched{
+      color: #ca2e7c;
+      font-size: 12px;
+      border: 1px solid #ca2e7c;
+      border-radius: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
     }
     &--date{
       font-size: 12px;
@@ -503,7 +594,7 @@ html{
     }
   }
   &__details{
-    height: 260px;
+    // height: 260px;
     width: 900px;
     position: fixed;
     left: 50%;
@@ -556,12 +647,18 @@ html{
     &--location{
       text-align: left;
     }
+    &--number{
+      margin-bottom: 40px;
+      text-align: start;
+      
+    }
   }
 }
 .details-position{
   display: flex;
   flex-direction: row;
   margin-top: 20px;
+  margin-bottom: 40px;
 }
 .details-right{
   margin-left: 10px;

@@ -10,15 +10,16 @@ const FavouriteItems = (props) => {
         var code = element.address ? element.address.code : 'brak';
         return(
             <Favourtie 
-            key={element.announcement_id}
-            id={element.announcement_id}
-            title={element.title}
-            description={element.description}
-            city={city}
-            street={street}
-            bldNumber={bldNumber}
-            fleet={fleet}
-            code={code}
+                key={element.announcement_id}
+                id={element.announcement_id}
+                title={element.title}
+                description={element.description}
+                city={city}
+                street={street}
+                bldNumber={bldNumber}
+                fleet={fleet}
+                code={code}
+                handleRemoveFromWatched={props.handleRemoveFromWatched}
             />    
         )
     }
