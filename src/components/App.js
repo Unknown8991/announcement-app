@@ -33,6 +33,7 @@ state = {
   firstName: '',
   lastName: '',
   phoneNumber: '',
+  userTypeId:'',
   isCorrectLoginUser: false, 
   isCorrectPasswordUser: false, 
   isActivePassword: false,
@@ -91,6 +92,15 @@ state = {
   isDeleteAnnouncement: false,
   exitConfirmDelete: false,
   idDelete: '',
+  isEditAccount: false,
+  isShowPassword: false,
+  // edycja konta uzytkownika
+  isEditInfo: false,
+  eUserName:'',
+  eUserSurname:'',
+  eUserPassword:'',
+  eUserPasswordConfirm:'',
+  ePhoneNumber: '',
 }
 // Funkcja zmieniająca isRegister na true
 handleChangeRegister = ()=>{
@@ -282,6 +292,7 @@ handleLoginInput = (e)=>{
         firstName: found[0].first_name,
         lastName: found[0].last_name,
         phoneNumber: found[0].tel_number,
+        userTypeId:found[0].user_type_id,
         isCorrectLoginUser: true,
       })
       
@@ -934,7 +945,135 @@ handleRemoveFromWatched = (id)=>{
   // .then(response => response.json())
   // .then(data =>console.log(data))
 }
+// Uruchomienie edycji danych konta uzytkownika
+handleRunEditAccountData = ()=>{
+  this.setState({
+    isEditAccount: !this.state.isEditAccount,
+  })
+}
+// Zamknięcie edycji konta użytkownika
+handleCloseEditAccountData = () =>{
+  this.setState({
+    isEditAccount: false,
+  })
+  const url2 = Request.url + `users/${this.state.idUser}`
+  fetch(url2,{
+    method: 'GET',
+    mode: 'cors'
+  }, true)
+  .then(response => response.json())
+  .then(data =>{
+    console.log(data.user_id)
 
+      this.setState({
+        loginUser: data.user_name,
+        passwordUser: data.password,
+        idUser: data.user_id,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        phoneNumber: data.tel_number,
+
+      })
+  })
+}
+// Pokaż hasło
+handleShowPassword = () =>{
+  console.log('test')
+  this.setState({
+    isShowPassword: !this.state.isShowPassword,
+  })
+}
+// Edycja danych na koncie użytkownika
+handleEditAccountData = (e) =>{
+  console.log(e.target.value)
+  if(e.target.name === "name"){
+    this.setState({
+      // eUserName: e.target.value,
+      firstName: e.target.value,
+    })
+  }
+  if(e.target.name === "surname"){
+    this.setState({
+      // eUserSurname: e.target.value
+      lastName: e.target.value,
+    })
+  }
+  if(e.target.name === "password"){
+    this.setState({
+      eUserPassword: e.target.value
+    })
+  }
+  if(e.target.name === "passwordConfirm"){
+    this.setState({
+      eUserPasswordConfirm: e.target.value
+    })
+  }
+  if(e.target.name === "phoneNumber"){
+    this.setState({
+      phoneNumber: e.target.value
+    })
+  }
+
+}
+// Wysłanie formularza ze zmienionymi danymi
+handleSendEditAccountData = ()=>{
+ 
+        console.log('wysyłam')
+      
+        const url = Request.url + `users/${this.state.idUser}`
+        console.log(url)
+  
+  
+        const data ={
+          "user_name": this.state.loginUser,
+          "first_name": this.state.firstName,
+          "last_name": this.state.lastName,
+          "password": this.state.passwordUser,
+          "tel_number": this.state.phoneNumber,
+          "user_type_id": this.state.userTypeId,
+        }
+        fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify(data)
+        }).then(response =>{
+          return response.json()
+        }).then(data =>{
+          console.log(data)
+          const url2 = Request.url + `users/${this.state.idUser}`
+          fetch(url2,{
+            method: 'GET',
+            mode: 'cors'
+          }, true)
+          .then(response => response.json())
+          .then(data =>{
+            // console.log(response.status)
+            console.log(data.user_id)
+              this.setState({
+                loginUser: data.user_name,
+                passwordUser: data.password,
+                idUser: data.user_id,
+                firstName: data.first_name,
+                lastName: data.last_name,
+                phoneNumber: data.tel_number,
+  
+              })
+          })
+          this.setState({
+            isEditInfo: true,
+          })
+          setTimeout(() =>{
+           this.setState({
+              isEditAccount: false,
+              isEditInfo: false,
+            })
+          }, 1000)
+
+        })
+
+  }
 
 
 // Do poprawki jeszcze
@@ -1056,12 +1195,19 @@ componentDidMount () {
                 announcementItems={this.state.announcementItems}
                 isConfirmDelete={this.state.isConfirmDelete}
                 showModalDelete={this.state.showModalDelete}
+                isEditAccount={this.state.isEditAccount}
+                isShowPassword={this.state.isShowPassword}
+                isEditInfo={this.state.isEditInfo}
                 handleDeleteAnnouncements={this.handleDeleteAnnouncements}
                 changeActiveProfilOption={this.handleChangeActiveProfilOption}
                 handleConfirmDeleteAnnouncement={this.handleConfirmDeleteAnnouncement}
                 handleCloseDeleteModal={this.handleCloseDeleteModal}
                 handleRemoveFromWatched={this.handleRemoveFromWatched}
-                
+                handleRunEditAccountData={this.handleRunEditAccountData}
+                handleCloseEditAccountData={this.handleCloseEditAccountData}
+                handleEditAccountData={this.handleEditAccountData}
+                handleSendEditAccountData={this.handleSendEditAccountData}
+                handleShowPassword={this.handleShowPassword}
               />}
               />
             </Routes>

@@ -43,6 +43,14 @@ const UserPanel = (props) => {
                                 userLogin={props.userLogin}
                                 userPassword={props.userPassword}
                                 userNumberPhone={props.userNumberPhone}
+                                isEditAccount={props.isEditAccount}
+                                isShowPassword={props.isShowPassword}
+                                isEditInfo={props.isEditInfo}
+                                handleRunEditAccountData={props.handleRunEditAccountData}
+                                handleCloseEditAccountData={props.handleCloseEditAccountData}
+                                handleEditAccountData={props.handleEditAccountData}
+                                handleSendEditAccountData={props.handleSendEditAccountData}
+                                handleShowPassword={props.handleShowPassword}
                             /> : null}
                             {props.isActiveOptionTwo ? 
                                 <MyAnnouncements
