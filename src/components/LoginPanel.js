@@ -4,7 +4,10 @@ import ModalNotification from './ModalNotification';
 const LoginPanel = (props) => {
     return ( 
         <>
-        <div className='ball'></div>
+        {/* <div className='ball'></div> */}
+        <div className='ball--one'></div>
+        <div className='ball--two'></div>
+        <div className='ball--three'></div>
         {/* <div className='container'>
           <div className='header'>
             <div className='header-block'>AN</div>

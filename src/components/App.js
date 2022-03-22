@@ -1000,7 +1000,7 @@ handleEditAccountData = (e) =>{
   }
   if(e.target.name === "password"){
     this.setState({
-      eUserPassword: e.target.value
+      passwordUser: e.target.value
     })
   }
   if(e.target.name === "passwordConfirm"){
