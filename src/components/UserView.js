@@ -51,6 +51,7 @@ const UserView = (props) => {
                         activeFilter={props.activeFilter}
                         isFilterActive={props.isFilterActive}
                         allLocalizationFilter={props.allLocalizationFilter}
+                        isUndefined={props.isUndefined}
                     />
                 </div>
             </div>

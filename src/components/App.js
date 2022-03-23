@@ -49,6 +49,7 @@ state = {
   isFilterActive: false,
   activeFilter: '',
   allLocalizationFilter: false,
+  isUndefined: false,
   // pokaż szczegóły
   isShowDetails: false,
   dAnnouncementId:null,
@@ -732,7 +733,6 @@ handleConfirmDeleteAnnouncement = () =>{
     isConfirmDelete: true
   })
 
-
     const API = Request.url + `announcements/${this.state.idDelete}`;
     fetch(API,{
       method: 'DELETE',
@@ -1144,6 +1144,7 @@ componentDidMount () {
                     isFilterActive={this.state.isFilterActive}
                     activeFilter={this.state.activeFilter}
                     allLocalizationFilter={this.state.allLocalizationFilter}
+                    isUndefined={this.state.isUndefined}
                     handleActiveSearch={this.handleActiveSearch}
                     handleChangeForm={this.handleChangeForm}
                     handleInputAnnouncement={this.handleInputAnnouncement}

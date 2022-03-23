@@ -4,9 +4,9 @@ import Announcement from './Announcement';
 const AnnouncementsItems = (props) => {
     // Wyświetlenie ogłoszeń pasujących do wpisanej frazy z wyszukiwarki
     const arraySearchText = props.announcementItems.filter(item => item.title.includes(props.searchText))
-    
+    // console.log(arraySearchText)
     // Wyświetlenie ogłoszeń pasujących do wybranych filtrów oraz wyszukiwań
- 
+    
     const searchText = arraySearchText.map(element => {
         var city = element.address ? element.address.city : 'brak';
         var street = element.address ? element.address.street : 'brak';
@@ -14,8 +14,48 @@ const AnnouncementsItems = (props) => {
         var fleet = element.address ? element.address.fleet : 'brak';
         var code = element.address ? element.address.code : 'brak';
 
-        if(props.allLocalizationFilter === true && props.isFilterActive === true && props.activeFilter !== '' && element.address !== null && element.address.city !== null && props.activeFilter === element.address.city ){
+        if(props.allLocalizationFilter === true && props.isFilterActive === true &&
+             props.activeFilter !== '' && element.address !== null &&
+              element.address.city !== null && props.activeFilter === element.address.city ){
 
+            return(
+                <Announcement
+                    key={element.announcement_id}
+                    id={element.announcement_id}
+                    title={element.title}
+                    description={element.description}
+                    city={city}
+                    street={street}
+                    bldNumber={bldNumber}
+                    fleet={fleet}
+                    code={code}
+                    handleAddToFavourites={props.handleAddToFavourites}
+                    handleShowDetails={props.handleShowDetails}
+                    isShowDetails={props.isShowDetails}
+                    isWatched={props.isWatched}
+                    watched={props.watched}
+                />)
+
+            }
+             else if (props.allLocalizationFilter !== true ){
+            return(
+                <Announcement
+                    key={element.announcement_id}
+                    id={element.announcement_id}
+                    title={element.title}
+                    description={element.description}
+                    city={city}
+                    street={street}
+                    bldNumber={bldNumber}
+                    fleet={fleet}
+                    code={code}
+                    handleAddToFavourites={props.handleAddToFavourites}
+                    handleShowDetails={props.handleShowDetails}
+                    isShowDetails={props.isShowDetails}
+                    isWatched={props.isWatched}
+                    watched={props.watched}
+                />)
+            } else if(props.activeFilter === '' && element.address === null){
             return(
                 <Announcement
                     key={element.announcement_id}
@@ -34,79 +74,20 @@ const AnnouncementsItems = (props) => {
                     watched={props.watched}
             />
             )
-        }  else if (props.allLocalizationFilter !== true ){
-
-            return(
-                <Announcement
-                key={element.announcement_id}
-                id={element.announcement_id}
-                title={element.title}
-                description={element.description}
-                city={city}
-                street={street}
-                bldNumber={bldNumber}
-                fleet={fleet}
-                code={code}
-                handleAddToFavourites={props.handleAddToFavourites}
-                handleShowDetails={props.handleShowDetails}
-                isShowDetails={props.isShowDetails}
-                isWatched={props.isWatched}
-                watched={props.watched}
-            />
-            )
         }
-        else if(props.activeFilter === '' && element.address === null){
-            return(
-                <Announcement
-                key={element.announcement_id}
-                id={element.announcement_id}
-                title={element.title}
-                description={element.description}
-                city={city}
-                street={street}
-                bldNumber={bldNumber}
-                fleet={fleet}
-                code={code}
-                handleAddToFavourites={props.handleAddToFavourites}
-                handleShowDetails={props.handleShowDetails}
-                isShowDetails={props.isShowDetails}
-                isWatched={props.isWatched}
-                watched={props.watched}
-            />
-            )
-        }
-
-
-        // return (
-        // <Announcement
-        //     key={element.announcement_id}
-        //     id={element.announcement_id}
-        //     title={element.title}
-        //     description={element.description}
-        //     city={city}
-        //     street={street}
-        //     bldNumber={bldNumber}
-        //     fleet={fleet}
-        //     code={code}
-        //     handleAddToFavourites={props.handleAddToFavourites}
-        //     handleShowDetails={props.handleShowDetails}
-        //     isShowDetails={props.isShowDetails}
-        //     isWatched={props.isWatched}
-        //     watched={props.watched}
-        // />
-        // )
         
-        });
-    // Wyświetlenie wszystkich ogłoszeń 
-    // const announcements = props.announcementItems.map(announcement =>(
-    // <Announcement 
-    //     key={announcement.announcement_id}
-    //     id={announcement.announcement_id}
-    //     title={announcement.title}
-    //     description={announcement.description}
-    //     location={announcement.location}
-    // />
-    // ) )
+        
+        
+    });
+    let controller = false;
+    const test = searchText.map(item => {
+        if(item ===undefined)
+        controller = true;
+    })
+    // const test = searchText.indexOf(undefined)
+console.log(test)
+console.log(controller)
+
     return ( 
         <div>
             {props.isShowDetails ? 
@@ -143,6 +124,7 @@ const AnnouncementsItems = (props) => {
             }
             {/* {announcements} */}
             {searchText}
+            {controller  ? <div className='info-about-result'>To wszystkie rezultaty odnalezione z wybranymi filtrami</div> : null}
             {/* {props.activeFilter !== '' ? arrayCityNotNull : arrayCityWithNull} */}
 
         </div>
