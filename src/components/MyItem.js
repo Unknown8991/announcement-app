@@ -18,6 +18,9 @@ const MyItem = (props) => {
         </div>
         <div className='col-2 announcement announcement__adding-info'>
         <div className='col-12 announcement-favourite'>
+                    <div className='announcement__adding-info--delete' onClick={()=>props.handleEditAnnouncement(props.id)}>
+                        E
+                    </div>
                     <div className='announcement__adding-info--favourite' onClick={()=>props.handleDeleteAnnouncements(props.id)}>
                         D
                     </div>

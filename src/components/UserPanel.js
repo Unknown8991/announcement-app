@@ -60,6 +60,29 @@ const UserPanel = (props) => {
                                     handleDeleteAnnouncements={props.handleDeleteAnnouncements}
                                     handleConfirmDeleteAnnouncement={props.handleConfirmDeleteAnnouncement}
                                     handleCloseDeleteModal={props.handleCloseDeleteModal}
+                                    handleEditAnnouncement={props.handleEditAnnouncement}
+                                    isEditAnnouncement={props.isEditAnnouncement}
+                                    handleCloseEditAnnouncement={props.handleCloseEditAnnouncement}
+                                    eUserId={props.eUserId}
+                                    eTitleAnnouncement={props.eTitleAnnouncement}
+                                    eDescriptionAnnouncement={props.eDescriptionAnnouncement}
+                                    eCityAnnouncement={props.eCityAnnouncement}
+                                    eStreetAnnouncement={props.eStreetAnnouncement}
+                                    eFleetAnnouncement={props.eFleetAnnouncement}
+                                    eBldNumberAnnouncement={props.eBldNumberAnnouncement}
+                                    eCodeAnnouncement={props.eCodeAnnouncement}
+                                    phoneNumber={props.phoneNumber}
+                                    handleChangeEditAnnouncement={props.handleChangeEditAnnouncement}
+                                    handleSendEditAnnouncement={props.handleSendEditAnnouncement}
+                                    // 
+                                    title={props.title}
+                                    description={props.description}
+                                    city={props.city}
+                                    street={props.street}
+                                    bldNumber={props.bldNumber}
+                                    fleet={props.fleet}
+                                    code={props.code}
+                                    isEditInfo={props.isEditInfo}
                                 /> : null}
                             {props.isActiveOptionThree ? 
                                 <FavoriteAnnouncements

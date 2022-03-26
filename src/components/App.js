@@ -102,6 +102,17 @@ state = {
   eUserPassword:'',
   eUserPasswordConfirm:'',
   ePhoneNumber: '',
+  // edycja ogłoszenia
+  isEditAnnouncement: false,
+  eAnnouncementId: '',
+  eUserId: '',
+  eTitleAnnouncement: '',
+  eDescriptionAnnouncement: '',
+  eCityAnnouncement: '',
+  eStreetAnnouncement: '',
+  eFleetAnnouncement: '',
+  eBldNumberAnnouncement: '',
+  eCodeAnnouncement: '',
 }
 // Funkcja zmieniająca isRegister na true
 handleChangeRegister = ()=>{
@@ -518,6 +529,15 @@ handleSendAnnouncement = () =>{
   })
 .then(data => {
   console.log('Success:', data);
+  this.setState({
+    title: '',
+    description: '',
+    city: '',
+    street: '',
+    bldNumber: '',
+    fleet: '',
+    code: '',
+  })
 })
 .catch((error) => {
   console.error('Error:', error);
@@ -1015,7 +1035,7 @@ handleEditAccountData = (e) =>{
   }
 
 }
-// Wysłanie formularza ze zmienionymi danymi
+// Wysłanie edycji konta użytkownika  
 handleSendEditAccountData = ()=>{
  
         console.log('wysyłam')
@@ -1074,7 +1094,160 @@ handleSendEditAccountData = ()=>{
         })
 
   }
+// Złapanie edycji na inpucie
+handleChangeEditAnnouncement = (e)=>{
+  console.log(e.target.value)
+  if(e.target.name === "eTitle"){
+    this.setState({
+      // eUserName: e.target.value,
+      title: e.target.value,
+    })
+  }
+  if(e.target.name === "eDescription"){
+    this.setState({
+      // eUserSurname: e.target.value
+      description: e.target.value,
+    })
+  }
+  if(e.target.name === "eLocation"){
+    this.setState({
+      city: e.target.value
+    })
+  }
+  if(e.target.name === "eStreet"){
+    this.setState({
+      street: e.target.value
+    })
+  }
+  if(e.target.name === "eBldNumber"){
+    this.setState({
+      bldNumber: e.target.value
+    })
+  }
+  if(e.target.name === "eFleet"){
+    this.setState({
+      fleet: e.target.value
+    })
+  }
+  if(e.target.name === "eCode"){
+    this.setState({
+      bldNumber: e.target.value
+    })
+  }
+}
+// Edycja mojego ogłoszenia
+handleEditAnnouncement = (id) =>{
+  // handleShowDetails
+  console.log(id)
+  console.log('dział')
+  const arr = [...this.state.myAnnouncements]
+  // console.log(arr)
+  const array = arr.map(element =>{
+    if(element.announcement_id === id){
+      this.setState({
+        eAnnouncementId: element.announcement_id,
+        // isEditAnnouncement: true,
+      })
+      setTimeout(()=>{
+        this.setState({
+          isEditAnnouncement: true,
+        })
+      }, 500)
+      const API = Request.url + `announcements/${element.announcement_id}`
+      console.log(API)
+      fetch(API, {
+        method: 'GET',
+        mode: 'cors'
+      }, true)
+      .then(response => response.json())
+      .then(data =>{
+        console.log(data[0].user_id)
+        if(data[0].address !== null){
+          this.setState({
+            eUserId: data[0].user_id,
+            eTitleAnnouncement: data[0].title,
+            eDescriptionAnnouncement: data[0].description,
+            eCityAnnouncement:data[0].address.city,
+            eStreetAnnouncement:data[0].address.street,
+            eBldNumberAnnouncement:data[0].address.bld_number,
+            eFleetAnnouncement:data[0].address.fleet,
+            eCodeAnnouncement:data[0].address.code,
 
+            title: data[0].title,
+            description: data[0].description,
+            city:data[0].address.city,
+            street:data[0].address.street,
+            bldNumber:data[0].address.bld_number,
+            fleet:data[0].address.fleet,
+            code:data[0].address.code,
+          })
+        }
+      })
+    }
+
+  })
+}
+handleSendEditAnnouncement =()=>{
+  console.log('wyslij')
+  const url = Request.url + `announcements/${this.state.eAnnouncementId}`
+  const data={
+    "user_id": this.state.idUser,
+    "title": this.state.title,
+    "description": this.state.description,
+    "adddate": "2022-01-01T09:46:09.541Z",
+    "is_del": "False",
+    "lm_dat": "2022-01-01T09:46:09.541Z",
+    "end_dat": "2022-03-01T09:46:09.541Z",
+    "state": "1",
+    "address": {
+         "city": this.state.city,
+         "street": this.state.street,
+         "bld_number": this.state.bldNumber,
+         "fleet": this.state.fleet,
+         "code": this.state.code
+    }
+  }
+  fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify(data)
+  }).then( response =>{
+    return response.json()
+  }).then(data =>{
+    console.log(data)
+    const API = Request.url + `announcements/user/${this.state.idUser}`;
+    // console.log(API)
+    fetch(API,{
+      method: 'GET',
+      mode: 'cors'
+    }, true)
+    .then(response => response.json())
+    .then(data =>{
+      this.setState({
+        myAnnouncements: data
+      })
+      // console.log(data)
+    })
+    this.setState({
+      isEditInfo: true,
+    })
+    setTimeout(() =>{
+     this.setState({
+        isEditAnnouncement: false,
+        isEditInfo: false,
+      })
+    }, 1000)
+  })
+}
+// Zamknięcie edycji ogłoszenia
+handleCloseEditAnnouncement = () =>{
+  console.log('zamknij')
+  this.setState({
+    isEditAnnouncement: false,
+  })
+}
 
 // Do poprawki jeszcze
 componentDidMount () {
@@ -1199,6 +1372,26 @@ componentDidMount () {
                 isEditAccount={this.state.isEditAccount}
                 isShowPassword={this.state.isShowPassword}
                 isEditInfo={this.state.isEditInfo}
+                eUserId={this.state.eUserId}
+                eTitleAnnouncement={this.state.eTitleAnnouncement}
+                eDescriptionAnnouncement={this.state.eDescriptionAnnouncement}
+                eCityAnnouncement={this.state.eCityAnnouncement}
+                eStreetAnnouncement={this.state.eStreetAnnouncement}
+                eFleetAnnouncement={this.state.eFleetAnnouncement}
+                eBldNumberAnnouncement={this.state.eBldNumberAnnouncement}
+                eCodeAnnouncement={this.state.eCodeAnnouncement}
+                phoneNumber={this.state.phoneNumber}
+                isEditAnnouncement={this.state.isEditAnnouncement}
+                // 
+                title={this.state.title}
+                description={this.state.description}
+                city={this.state.city}
+                street={this.state.street}
+                bldNumber={this.state.bldNumber}
+                fleet={this.state.fleet}
+                code={this.state.code}
+                
+                
                 handleDeleteAnnouncements={this.handleDeleteAnnouncements}
                 changeActiveProfilOption={this.handleChangeActiveProfilOption}
                 handleConfirmDeleteAnnouncement={this.handleConfirmDeleteAnnouncement}
@@ -1209,6 +1402,10 @@ componentDidMount () {
                 handleEditAccountData={this.handleEditAccountData}
                 handleSendEditAccountData={this.handleSendEditAccountData}
                 handleShowPassword={this.handleShowPassword}
+                handleCloseEditAnnouncement={this.handleCloseEditAnnouncement}
+                handleEditAnnouncement={this.handleEditAnnouncement}
+                handleChangeEditAnnouncement={this.handleChangeEditAnnouncement}
+                handleSendEditAnnouncement={this.handleSendEditAnnouncement}
               />}
               />
             </Routes>

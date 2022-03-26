@@ -5,7 +5,7 @@ const EditAccountData = (props) => {
         <div className='edit-account-data'>
             <div>
             <div className='edit-account-data__header'>
-                <label className='col-11' htmlFor="">Edycja konta użytkownika</label>
+                <label className='col-11 text-edit' htmlFor="">Edycja konta użytkownika</label>
                 <div className=' edit-account-data__close' onClick={props.handleCloseEditAccountData}>X</div>        
             </div>
             <div className='col-12 my-profile-data'>
@@ -40,7 +40,7 @@ const EditAccountData = (props) => {
                     {props.userNumberPhone.length >= 10 ? 'Maksymalna ilość znaków to 9' : null}
                 </div>
             </div>
-            {props.isEditInfo ? <div>Dane zostały zapisane</div> : null}
+            {props.isEditInfo ? <div className='saved-info'>Dane zostały zapisane</div> : null}
             <div>
                 <button onClick={props.handleSendEditAccountData} className='my-profile-data__edit--button-active'>Zapisz</button>
             </div>

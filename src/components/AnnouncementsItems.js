@@ -85,8 +85,7 @@ const AnnouncementsItems = (props) => {
         controller = true;
     })
     // const test = searchText.indexOf(undefined)
-console.log(test)
-console.log(controller)
+
 
     return ( 
         <div>
