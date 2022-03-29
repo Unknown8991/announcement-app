@@ -222,6 +222,19 @@ if(this.state.isCorrectRegister){
         // isDisplayNotification: true,
         
       })
+      const API = Request.url + 'users/';
+  
+      fetch(API,{
+        method: 'GET',
+        mode: 'cors'
+      }, true)
+      .then(response => response.json())
+      .then(data =>{
+        // console.log(data)
+        this.setState({
+          userData: data,
+        })
+      }) 
       setTimeout(()=>{
         if(this.state.isRegister === false){
           this.setState({
