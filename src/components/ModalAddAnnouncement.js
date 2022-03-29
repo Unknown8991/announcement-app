@@ -44,6 +44,7 @@ const ModalAddAnnouncement = (props) => {
                 <div className='add-ann-form col-5'>
                     <label className='add-announcement-modal--text col-5' htmlFor="">Kod pocztowy</label>
                     <input className='add-announcement-modal__input col-5' type="text" name='code' onChange={props.handleInputAnnouncement} />
+                    <input className='file-input' type="file" name='photo'/> 
                 </div>
             </div>
               

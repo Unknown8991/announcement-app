@@ -72,6 +72,7 @@ state = {
   bldNumber: '',
   fleet: '',
   code: '',
+  photo: '',
   addressId: null,
   lmDat:'',
   endDat:'',
@@ -458,6 +459,11 @@ handleInputAnnouncement = (e) =>{
   if(name === "code"){
     this.setState({
       code: e.target.value
+    })
+  }
+  if(name === "photo"){
+    this.setState({
+      // 
     })
   }
 
