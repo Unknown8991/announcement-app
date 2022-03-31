@@ -18,10 +18,37 @@ import { Link } from 'react-router-dom';
                 </div>
                 {/* <div className='header-block'>Filtry</div> */}
                 <div className='header-block' >
-                <Link to="/profil" className='header-block--link'>P</Link>
+                <Link to="/profil" className='header-block--link' 
+                    onMouseEnter={() => props.handleShowSkeletonNotification(true)}
+                    onMouseLeave={() => props.handleShowSkeletonNotification(false)}
+                >P</Link>
+
                 {/* onClick={props.getUserData} */}
                 </div>
+                <div className='header-block' onClick={props.handleShowSkeletonNotification}>
+                    N
+                </div>
+                
             </div> 
+                    {props.skeletonNotification ? 
+                        <div className='col-12 container notification-skeleton'>
+                            <div className='notification-skeleton__object'>
+                                <div className='col-12 notification-skeleton__center'>
+
+                                <div className='notification-skeleton__circle'></div>
+                                </div>
+                                <div className='notification-skeleton__text'>{props.userLogin}</div>
+                                <div className='notification-skeleton__text--name'>{props.userFirstName} {props.userSurname}</div>
+                                <div className='notification-skeleton__description'>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, ab?
+                                </div>
+
+                                
+                            </div>
+                        </div> 
+                        : 
+                        null
+                    }
                
             {/* <div className='header__user-view'>
                 <div className='header-block'>

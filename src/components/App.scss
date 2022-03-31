@@ -44,7 +44,7 @@ html{
   font-size: 20px;
   font-weight: 700;
   color: #ca2e7c;
-
+  cursor: pointer;
   &--link{
     color: #ca2e7c;
     text-decoration: none;
@@ -71,6 +71,57 @@ html{
     display: flex;
   }
  } 
+}
+.notification-skeleton{
+  display: flex;
+  justify-content: end;
+  &__object{
+    margin-top: 20px;
+    position: absolute;
+    // top: 10%;
+    // left: 85%;
+
+    border-radius: 12px;
+    // background: #f2f2f7;
+    background: linear-gradient(0.5turn, #f2f2f7 50%,  #d5def1, #e193c6);
+    width: 250px;
+    height: 400px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+  &__text{
+    color: #1a1a1a;
+    font-weight: 600;
+    margin-top: 10px;
+    &--name{
+      font-weight: 400;
+      margin-top: 6px;
+    }
+  }
+  &__circle{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+  &__description{
+    border-radius: 12px;
+    // box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    font-size: 12px;
+    padding: 8px;
+    margin: 8px;
+
+    // border-radius: 12px;
+// background: #e0e0e0;
+box-shadow: inset 5px 5px 10px #d5d5d9,
+            inset -5px -5px 10px #ffffff;
+  }
+  &__center{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 }
 .search-input{
   background: none;
@@ -553,7 +604,7 @@ box-shadow:  5px 5px 7px #bebebe,
 
 // UserView
 .info-about-result{
-  color: #f2f2f7;
+  color: #1a1a1a;
 }
 .announcement-list{
   margin-top: 40px;
@@ -809,6 +860,22 @@ box-shadow: inset 3px 3px 7px #dcdcdc,
       box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     }
   }
+}
+.photo{
+border-radius: 12px;
+border-radius: 12px;
+margin: 20px;
+// background: #e0e0e005;
+// box-shadow: inset 9px 9px 18px #bebebe,
+//             inset -9px -9px 18px #ffffff;
+}
+.photo-item{
+  width: 500px;
+  height: 300px;
+  border-radius: 12px;
+  padding: 10px;
+  opacity: 0.7;
+  box-shadow: inset 9px 9px 18px #bebebeb5, inset -9px -9px 18px #ffffff47;
 }
 .details-position{
   display: flex;

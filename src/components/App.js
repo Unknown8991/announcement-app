@@ -43,6 +43,8 @@ state = {
   // isAllowAccess: false,
   announcementItems:[],
   addAnnouncement: false,
+  // szkielet powiadomień
+  skeletonNotification: false,
   // wyszukiwarka
   activeSearch: false,
   searchText: '',
@@ -73,6 +75,7 @@ state = {
   fleet: '',
   code: '',
   photo: '',
+  sendingPhoto: [],
   addressId: null,
   lmDat:'',
   endDat:'',
@@ -81,6 +84,7 @@ state = {
   isFormAnnouncementCorrect: false,
   statementAddAnnouncement: false,
   permissionUser: false,
+  idImage:'',
   // panel profilu
   // dane w ustawieniach
   userData:[],
@@ -390,7 +394,7 @@ checkLogIn = () =>{
       this.setState({
         announcementItems: data
       })
-      // console.log(data)
+      console.log(data)
       
       const API2 = Request.url + `favourites/user/${this.state.idUser}`;
       fetch(API2,{
@@ -462,11 +466,42 @@ handleInputAnnouncement = (e) =>{
     })
   }
   if(name === "photo"){
+    console.log(e.target.file)
     this.setState({
-      // 
+      sendingPhoto: e.target.file
     })
-  }
+    const fileInput = document.querySelector('#file') ;
+    const formData = new FormData();
 
+    formData.append('file', fileInput.files[0]);
+    console.log(formData.append('file', fileInput.files[0]))
+
+    const url = Request.url + 'upload/'
+     
+    const response =  fetch(url, {
+      method: 'POST',
+      body: formData,
+    })
+    .then((response) =>
+
+       response.json()
+
+    )
+    console.log(response)
+
+    const p = Promise.resolve(response);
+
+    p.then(value => {
+      console.log(value.id); // 👉️ "hello"
+      this.setState({
+        idImage: value.id
+      })
+    }).catch(err => {
+      console.log(err);
+    });
+  
+
+  }
 }
 // Aktywacja przycisku dodawania ogłoszenia
 handleUpdateStateAnnouncementForm = ()=>{
@@ -503,7 +538,9 @@ handleSendAnnouncement = () =>{
                "bld_number": this.state.bldNumber,
                "fleet": this.state.fleet,
                "code": this.state.code
-          }
+          },
+          "image_id": this.state.idImage
+
   }
   console.log(data)
  
@@ -896,14 +933,21 @@ handleShowDetails = (id) =>{
   // console.log(id)
   const arr = [...this.state.announcementItems]
   const array = arr.map(element =>{
+    console.log(`Tutaj: ${element.announcement_id}`)
+    console.log(`ID klikniętego el: ${id}` )
     if(element.announcement_id === id){
 
-      // console.log(element.announcement_id)
-      // console.log(id)
-      this.setState({
-        dAnnouncementId: element.announcement_id,
-        isShowDetails: true,
-      })
+
+      // this.setState({
+      //   dAnnouncementId: element.announcement_id,
+      // })
+      setTimeout(()=>{
+        this.setState({
+          dAnnouncementId: element.announcement_id,
+          isShowDetails: true,
+        })
+      },500)
+
       const API = Request.url + `announcements/${element.announcement_id}`
       // console.log(API)
       fetch(API,{
@@ -912,23 +956,46 @@ handleShowDetails = (id) =>{
       }, true)
       .then(response => response.json())
       .then(data =>{
-        console.log(data[0].user_id)
-        if(data[0].address !==null){
-          this.setState({
-            dAnnouncementId: data[0].announcement_id,
-            dTitleAnnnouncement: data[0].title,
-            dDescriptionAnnnouncement: data[0].description,
-            dEndDat: data[0].end_dat.substr(0,10),
-            dLocation: data[0].address.city,
-          })
+        if(data[0].address !== null){
+          if(data[0].image_href !== null){
+            this.setState({
+              dAnnouncementId: data[0].announcement_id,
+              dTitleAnnnouncement: data[0].title,
+              dDescriptionAnnnouncement: data[0].description,
+              dEndDat: data[0].end_dat.substr(0,10),
+              dLocation: data[0].address.city,
+              photo: data[0].image_href.image,
+            })
+          }else{
+            this.setState({
+              dAnnouncementId: data[0].announcement_id,
+              dTitleAnnnouncement: data[0].title,
+              dDescriptionAnnnouncement: data[0].description,
+              dEndDat: data[0].end_dat.substr(0,10),
+              dLocation: data[0].address.city,
+
+            })
+          }
+
         }else{
           // W przypadku gdy nie ma podanego adresu
-          this.setState({
-            dAnnouncementId: data[0].announcement_id,
-            dTitleAnnnouncement: data[0].title,
-            dDescriptionAnnnouncement: data[0].description,
-            dEndDat: data[0].end_dat.substr(0,10),
-          })
+          if(data[0].image_href !== null){
+            this.setState({
+              dAnnouncementId: data[0].announcement_id,
+              dTitleAnnnouncement: data[0].title,
+              dDescriptionAnnnouncement: data[0].description,
+              dEndDat: data[0].end_dat.substr(0,10),
+              photo: data[0].image_href.image,
+            })
+          }else{
+            this.setState({
+              dAnnouncementId: data[0].announcement_id,
+              dTitleAnnnouncement: data[0].title,
+              dDescriptionAnnnouncement: data[0].description,
+              dEndDat: data[0].end_dat.substr(0,10),
+
+            })
+          }
         }
         if(data[0].user_id !== null){
           const API = Request.url + `users/${data[0].user_id}`
@@ -955,6 +1022,8 @@ handleShowDetails = (id) =>{
 handleCloseDetails = ()=>{
   this.setState({
     isShowDetails: false,
+    photo: '',
+    dLocation: '',
   })
 }
 // Usunięcie ogłoszenia z obserowanych
@@ -1267,6 +1336,12 @@ handleCloseEditAnnouncement = () =>{
     isEditAnnouncement: false,
   })
 }
+//  Wyświetlenie centrum powiadomień
+handleShowSkeletonNotification = () =>{
+  this.setState({
+    skeletonNotification: !this.state.skeletonNotification,
+  })
+}
 
 // Do poprawki jeszcze
 componentDidMount () {
@@ -1331,12 +1406,17 @@ componentDidMount () {
                     dLocation={this.state.dLocation}
                     dEndDat={this.state.dEndDat}
                     dphoneNumber={this.state.dphoneNumber}
+                    photo={this.state.photo}
                     isWatched={this.state.isWatched}
                     watched={this.state.watched}
                     isFilterActive={this.state.isFilterActive}
                     activeFilter={this.state.activeFilter}
                     allLocalizationFilter={this.state.allLocalizationFilter}
                     isUndefined={this.state.isUndefined}
+                    skeletonNotification={this.state.skeletonNotification}
+                    userFirstName={this.state.firstName}
+                    userSurname={this.state.lastName}
+                    userLogin={this.state.loginUser}
                     handleActiveSearch={this.handleActiveSearch}
                     handleChangeForm={this.handleChangeForm}
                     handleInputAnnouncement={this.handleInputAnnouncement}
@@ -1349,6 +1429,7 @@ componentDidMount () {
                     handleCloseDetails={this.handleCloseDetails}
                     handleActiveFilters={this.handleActiveFilters}
                     handleVeryficationActiveLocalization={this.handleVeryficationActiveLocalization}
+                    handleShowSkeletonNotification={this.handleShowSkeletonNotification}
                   /> 
                 }
               />

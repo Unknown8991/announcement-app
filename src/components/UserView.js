@@ -16,7 +16,12 @@ const UserView = (props) => {
             isFilterActive={props.isFilterActive}
             activeFilter={props.activeFilter}
             allLocalizationFilter={props.allLocalizationFilter}
+            skeletonNotification={props.skeletonNotification}
             handleVeryficationActiveLocalization={props.handleVeryficationActiveLocalization}
+            handleShowSkeletonNotification={props.handleShowSkeletonNotification}
+            userFirstName={props.userFirstName}
+            userSurname={props.userSurname}
+            userLogin={props.userLogin}
         />
             {props.statementAddAnnouncement ? 
             <ModalStatementAddAnnouncement />
@@ -45,6 +50,7 @@ const UserView = (props) => {
                         dEndDat={props.dEndDat}
                         dLocation={props.dLocation}
                         dphoneNumber={props.dphoneNumber}
+                        photo={props.photo}
                         handleCloseDetails={props.handleCloseDetails}
                         isWatched={props.isWatched}
                         watched={props.watched}
