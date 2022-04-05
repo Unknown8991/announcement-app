@@ -238,6 +238,13 @@ box-shadow: inset 5px 5px 10px #d5d5d9,
   transform: translate(-50%,-50%);
 }
 // Register panel
+.register-column{
+  display: flex;
+  flex-direction: column;
+  &__info{
+    font-size: 12px;
+  }
+}
 .register-panel{
   transform: translate(-50%, -50%);
   position: absolute;

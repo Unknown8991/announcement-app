@@ -26,6 +26,8 @@ state = {
   rPassword:'',
   rUserType: 1,
   isCorrectRegister: false,
+  rLowerLogin: '',
+  rNotify:'',
   // logowanie użytkownika
   loginUser:'',
   passwordUser:'',
@@ -118,6 +120,8 @@ state = {
   eFleetAnnouncement: '',
   eBldNumberAnnouncement: '',
   eCodeAnnouncement: '',
+  // Usuwanie z obserowawanych
+  idRemoveWatchedAnnouncement: '',
 }
 // Funkcja zmieniająca isRegister na true
 handleChangeRegister = ()=>{
@@ -149,15 +153,36 @@ handleCheckRegisterInput = (e) =>{
     this.checkRegisterForm()
   }
   if(e.target.name === "rPhoneNumber"){
-    this.setState({
-      rPhoneNumber: value
-    })
+    if(e.target.value.length === 9){
+      this.setState({
+        rPhoneNumber: value
+      })
+    }else{
+      this.setState({
+        rPhoneNumber: ''
+      })
+    }
     this.checkRegisterForm()
   }
   if(e.target.name === "rLogin"){
+    let lowerValue = e.target.value.toLowerCase()
     this.setState({
-      rLogin: value
+      rLowerLogin: lowerValue,
+      rLogin: value,
     })
+    if(lowerValue !== value){
+      this.setState({
+        rLogin: '',
+        // rLowerLogin: ''
+      })
+    }
+    // if(value.indexOf(' ') >= 0){
+    //   console.log(value.indexOf(' ') >= 0)
+    //   this.setState({
+    //     value: '',
+    //     lowerValue: '',
+    //   })
+    // }
     this.checkRegisterForm()
   }
   if(e.target.name === "rPassword"){
@@ -1029,29 +1054,41 @@ handleCloseDetails = ()=>{
 // Usunięcie ogłoszenia z obserowanych
 handleRemoveFromWatched = (id)=>{
   console.log(id)
-  // const arr = [...this.state.announcementItems]
+  const arr = [...this.state.announcementItems]
   // const API = Request.url + `favourites/user/${this.state.idUser}`
-  // console.log(API)
-  // fetch(API,{
-  //   method: 'DELETE',
-  //   mode: 'cors',
-  // }, true)
-  // .then(response =>{
-  //   const API2 = Request.url + `favourites/user/${this.state.idUser}`;
-  //   fetch(API,{
-  //     method: 'GET',
-  //     mode: 'cors'
-  //   }, true)
-  //   .then(response => response.json())
-  //   .then(data =>{
-  //     this.setState({
-  //       myFavourites: data
-  //     })
-  //     // console.log(data)
-  //   }) 
-  // })
-  // .then(response => response.json())
-  // .then(data =>console.log(data))
+  const API = Request.url + `favourites`
+  console.log(API)
+  this.setState({
+    idRemoveWatchedAnnouncement: id,
+  })
+  const data ={
+    "user_id": this.state.idUser,
+    "announcement_id": "10",
+  }
+  fetch(API,{
+    method: 'DELETE',
+    // mode: 'cors',
+    // headers:{
+    //   'Content-Type': 'application/json',
+    // },
+    body:JSON.stringify(data)
+  }, true)
+  .then(response =>{
+    const API2 = Request.url + `favourites/user/${this.state.idUser}`;
+    fetch(API2,{
+      method: 'GET',
+      mode: 'cors'
+    }, true)
+    .then(response => response.json())
+    .then(data =>{
+      this.setState({
+        myFavourites: data
+      })
+      // console.log(data)
+    }) 
+  })
+  .then(response => response.json())
+  .then(data =>console.log(data))
 }
 // Uruchomienie edycji danych konta uzytkownika
 handleRunEditAccountData = ()=>{
@@ -1366,12 +1403,19 @@ componentDidMount () {
                   rActiveTwo={this.state.rActiveTwo}
                   rActiveThree={this.state.rActiveThree}
                   login={this.state.login} 
+                  loginUser={this.state.loginUser}
                   password={this.state.password} 
                   permissionUser={this.state.permissionUser}
                   idUser={this.state.idUser}
                   allowEntry={this.state.allowEntry}
                   isCorrectLoginUser={this.state.isCorrectLoginUser}
                   isCorrectPasswordUser={this.state.isCorrectPasswordUser}
+                  rName={this.state.rName}
+                  rSurname={this.state.rSurname}
+                  rPhoneNumber={this.state.rPhoneNumber}
+                  rLogin={this.state.rLogin}
+                  rPassword={this.state.rPassword}
+                  rLowerLogin={this.state.rLowerLogin}
                   handleChangeTypeUser={this.handleChangeTypeUser}
                   handleCreateNewAccount={this.handleCreateNewAccount}
                   handleCheckRegisterInput={this.handleCheckRegisterInput}

@@ -49,17 +49,41 @@ const LoginPanel = (props) => {
               <div className='register-panel__text--info'>Uzupełnij dane w formularzu, aby utworzyć konto i móc korzystać z aplikacji Announcement</div>
               <div className='register-panel__input-contents'>
                 <div className='register-panel__items col-12'>
-                  <input className='register-panel__input ' name="rName" type="text" placeholder='Imię' onChange={props.handleCheckRegisterInput} />
-                  <input className='register-panel__input ' name="rSurname" type="text" placeholder='Nazwisko' onChange={props.handleCheckRegisterInput} />
+                  <div className='register-column register-column__info'>
+                    <input className='register-panel__input ' name="rName" type="text" maxLength={30} placeholder='Imię' onChange={props.handleCheckRegisterInput} />
+                    {props.rName === '' ? <label htmlFor="">Pole wymagane | max 20 znaków</label> : null }
+                    
+                  </div>
+                  <div className='register-column register-column__info'>
+                    <input className='register-panel__input ' name="rSurname" type="text" maxLength={30} placeholder='Nazwisko' onChange={props.handleCheckRegisterInput} />
+                    {props.rSurname === '' ? <label htmlFor="">Pole wymagane | max 20 znaków</label> : null }
+                    
+                  </div>
                 </div>
                 <div className='register-panel__items col-12'>
-                  <input className='register-panel__input ' name="rPhoneNumber" type="text" placeholder='Numer telefonu' onChange={props.handleCheckRegisterInput} />
+                  <div className='register-column register-column__info'>
+                    <input className='register-panel__input ' pattern="[0-9]" name="rPhoneNumber" type="text" maxLength={9} placeholder='Numer telefonu' onChange={props.handleCheckRegisterInput} />
+                    {props.rPhoneNumber === '' ? <label htmlFor="">Pole wymagane</label> : null }
+                    {props.rPhoneNumber.length < 9 && props.rPhoneNumber !== '' ? 'Numer musi telefonu musi zawierać 9 cyfr' : null}
+                    
+                  </div>
                   {/* <input className='register-panel__input' name="rAccountType" type="text" placeholder='Rodzaj konta' onChange={props.handleCheckRegisterInput} /> */}
                   <div className='register-panel__toogle' onClick={props.handleChangeTypeUser}>{props.rUserType === 2 ? 'Regular' : 'Buissnes'}</div>
                 </div>
                 <div className='register-panel__items'>
-                  <input className='register-panel__input ' name="rLogin" type="text" placeholder='Nazwa użytkownika' onChange={props.handleCheckRegisterInput} />
-                  <input className='register-panel__input ' name="rPassword" type="text" placeholder='Hasło' onChange={props.handleCheckRegisterInput} />
+                  <div className='register-column register-column__info'>
+                    <input className='register-panel__input ' placeholder='Nazwa użytkownika' name="rLogin" type="text" maxLength={20} defaultValue={props.rLogin.toLowerCase()} onChange={props.handleCheckRegisterInput} />
+                    {props.rLogin === '' ? <label htmlFor="">Pole wymagane | max 20 znaków</label> : null }
+                    {props.rLogin !== props.rLowerLogin ? <label>Nazwa użytkownika musi być z małych liter</label> : null}
+                    {props.rLogin !== props.rLowerLogin ? props.rLogin === '' : null}
+                    {props.rLogin.indexOf(' ') >= 0 ? <label>Nazwa użytkownika nie może zawierać spacji</label> : null}
+                    {props.rLogin.indexOf(' ') >= 0 ? '': null}
+                  </div>
+                  <div className='register-column register-column__info'>
+                    <input className='register-panel__input ' name="rPassword" type="text" maxLength={20} placeholder='Hasło' onChange={props.handleCheckRegisterInput} />
+                    {props.rPassword === '' ? <label htmlFor="">Pole wymagane | max 20 znaków</label> : null }
+                    
+                  </div>
                 </div>
               </div>
               {/* <div>Jeśli posiadasz konto użytkownika na portalu Announcement APP, przejdź 
@@ -94,13 +118,14 @@ const LoginPanel = (props) => {
               <div className='login-panel__text'>
                 Wpisz swój login
               </div>
-              <input className='login-panel__input' type="text" placeholder='login' name='login' onChange={props.handleLoginInput} />
+              <input className='login-panel__input' type="text" placeholder='login' name='login' maxLength={20} onChange={props.handleLoginInput} />
+              {/* {props.loginUser.length === 0 ? 'login nie może być pusty' : null } */}
             </div>
             <div className='col-12 login-panel__form-item'>
               <div className='login-panel__text'>
                 Uzupełnij hasło
               </div>
-              <input className='login-panel__input' type="password" placeholder='hasło' name='password' onChange={props.handleLoginInput} />
+              <input className='login-panel__input' type="password" placeholder='hasło' name='password' maxLength={20} onChange={props.handleLoginInput} />
             </div>
           </div>
 
