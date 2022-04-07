@@ -1053,24 +1053,25 @@ handleCloseDetails = ()=>{
 }
 // Usunięcie ogłoszenia z obserowanych
 handleRemoveFromWatched = (id)=>{
-  console.log(id)
+  console.log("To ta dwójka która chuj wie czym jest" + id)
   const arr = [...this.state.announcementItems]
   // const API = Request.url + `favourites/user/${this.state.idUser}`
-  const API = Request.url + `favourites`
+  const API = Request.url + `favourites/`
   console.log(API)
   this.setState({
     idRemoveWatchedAnnouncement: id,
   })
-  const data ={
+  const data = {
     "user_id": this.state.idUser,
-    "announcement_id": "10",
+    "announcement_id": id,
   }
+
   fetch(API,{
     method: 'DELETE',
-    // mode: 'cors',
-    // headers:{
-    //   'Content-Type': 'application/json',
-    // },
+    mode: 'cors',
+    headers:{
+      'Content-Type': 'application/json',
+    },
     body:JSON.stringify(data)
   }, true)
   .then(response =>{
