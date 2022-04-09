@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Announcement = (props) => {
-
+    console.log(props.watched)
     return ( 
     <>
             {/* {props.isShowDetails ? 
@@ -19,7 +19,8 @@ const Announcement = (props) => {
    
         <div className='col-12 announcement-list__item'>
             <div className=' announcement announcement__image'>
-                An
+                {/* Ans */}
+                <img className='image' src={`http://localhost:8000${props.image}`} alt="An" />
             </div>
             <div className='col-11 between'>
 
@@ -37,7 +38,8 @@ const Announcement = (props) => {
                         Pokaż szczegóły
                     </div>
                     <div className={props.watched.find(element => element === props.id) ? 'announcement__adding-info--watched-active': 'announcement__adding-info--favourite'} onClick={()=>props.handleAddToFavourites(props.id)}>
-                        U 
+                        <i className="fa fa-eye" aria-hidden="true"></i>
+
                     </div>
                 </div>
                 <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div> 

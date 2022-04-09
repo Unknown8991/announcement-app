@@ -7,18 +7,19 @@ const MyProfilData = (props) => {
         <div>
             {props.isEditAccount ? 
                 <EditAccountData
-                userData={props.userData}
-                userFirstName={props.userFirstName}
-                userSurname={props.userSurname}
-                userLogin={props.userLogin}
-                userPassword={props.userPassword}
-                userNumberPhone={props.userNumberPhone}
-                isEditAccount={props.isEditAccount}
-                isEditInfo={props.isEditInfo}
-                handleRunEditAccountData={props.handleRunEditAccountData}
-                handleCloseEditAccountData={props.handleCloseEditAccountData}
-                handleEditAccountData={props.handleEditAccountData}
-                handleSendEditAccountData={props.handleSendEditAccountData}
+                    userData={props.userData}
+                    userFirstName={props.userFirstName}
+                    userSurname={props.userSurname}
+                    userLogin={props.userLogin}
+                    userPassword={props.userPassword}
+                    userNumberPhone={props.userNumberPhone}
+                    isEditAccount={props.isEditAccount}
+                    isEditInfo={props.isEditInfo}
+                    errorEditPassword={props.errorEditPassword}
+                    handleRunEditAccountData={props.handleRunEditAccountData}
+                    handleCloseEditAccountData={props.handleCloseEditAccountData}
+                    handleEditAccountData={props.handleEditAccountData}
+                    handleSendEditAccountData={props.handleSendEditAccountData}
                 />
                 : 
                 null

@@ -63,7 +63,7 @@ const LoginPanel = (props) => {
                 <div className='register-panel__items col-12'>
                   <div className='register-column register-column__info'>
                     <input className='register-panel__input ' pattern="[0-9]" name="rPhoneNumber" type="text" maxLength={9} placeholder='Numer telefonu' onChange={props.handleCheckRegisterInput} />
-                    {props.rPhoneNumber === '' ? <label htmlFor="">Pole wymagane</label> : null }
+                    {props.rPhoneNumber === '' ? <label htmlFor="">Pole wymagane | 9 znaków</label> : null }
                     {props.rPhoneNumber.length < 9 && props.rPhoneNumber !== '' ? 'Numer musi telefonu musi zawierać 9 cyfr' : null}
                     
                   </div>
@@ -73,11 +73,12 @@ const LoginPanel = (props) => {
                 <div className='register-panel__items'>
                   <div className='register-column register-column__info'>
                     <input className='register-panel__input ' placeholder='Nazwa użytkownika' name="rLogin" type="text" maxLength={20} defaultValue={props.rLogin.toLowerCase()} onChange={props.handleCheckRegisterInput} />
-                    {props.rLogin === '' ? <label htmlFor="">Pole wymagane | max 20 znaków</label> : null }
+                    {/* {props.rLogin === '' ? <label htmlFor="">Pole wymagane | max 20 znaków</label> : null } */}
                     {props.rLogin !== props.rLowerLogin ? <label>Nazwa użytkownika musi być z małych liter</label> : null}
                     {props.rLogin !== props.rLowerLogin ? props.rLogin === '' : null}
                     {props.rLogin.indexOf(' ') >= 0 ? <label>Nazwa użytkownika nie może zawierać spacji</label> : null}
                     {props.rLogin.indexOf(' ') >= 0 ? '': null}
+                    {props.rLogin.length <= 4 ? <label>Pole musi zawierać co najmniej 5 znaków</label> : null}
                   </div>
                   <div className='register-column register-column__info'>
                     <input className='register-panel__input ' name="rPassword" type="text" maxLength={20} placeholder='Hasło' onChange={props.handleCheckRegisterInput} />
@@ -89,6 +90,7 @@ const LoginPanel = (props) => {
               {/* <div>Jeśli posiadasz konto użytkownika na portalu Announcement APP, przejdź 
                 do ekranu logowania</div> */}
               <button className='register-panel__register-button' onClick={props.handleCreateNewAccount}>Zarejestruj</button>
+            <div className='col-6 register-text'>* Numer telefonu musi być zapisany w postaci cyfr</div>
             </div>
           </div>
           :
@@ -127,6 +129,11 @@ const LoginPanel = (props) => {
               </div>
               <input className='login-panel__input' type="password" placeholder='hasło' name='password' maxLength={20} onChange={props.handleLoginInput} />
             </div>
+              {props.allowEntry === false ? 
+                <label className='register-column__info register-column__info--black'>{props.loginError}</label> 
+                : 
+                null 
+              }
           </div>
 
             <div className='login-panel__accept'>
@@ -139,8 +146,8 @@ const LoginPanel = (props) => {
                         </Link>
               :
               
-              
-              <button className='login-button'>
+
+              <button className='login-button' onClick={props.handleErrorLogin}>
                 Log In
               </button>
 

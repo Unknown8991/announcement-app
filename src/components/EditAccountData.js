@@ -12,38 +12,57 @@ const EditAccountData = (props) => {
                 <div className='col-5 my-profile-data__composition'>
                     <label htmlFor="" className='my-profile-data__label'>Imię</label>
 
-                    <input name="name" className='my-profile-data__input' type="text" minLength={3} maxLength='10'  onChange={props.handleEditAccountData} defaultValue={props.userFirstName} />
-                    {props.userFirstName.length >= 10 ? 'Maksymalna ilość znaków to 10' : null}
+                    <input name="name" className='my-profile-data__input' type="text" minLength={3} maxLength='20'  onChange={props.handleEditAccountData} defaultValue={props.userFirstName} />
+                    {props.userFirstName.length === 20 ? 
+                     <label htmlFor="" className='edit-error edit-error__text'>Max liczba znaków: 20</label>
+                     : 
+                     null
+                    }
                 </div>
                 <div className='col-5 my-profile-data__composition'>
                     <label htmlFor="" className='my-profile-data__label'>Nazwisko</label>
-                    <input name="surname" className='my-profile-data__input' type="text" maxLength={10} minLength="3" onChange={props.handleEditAccountData} defaultValue={props.userSurname}/>
-                    {props.userSurname.length >= 10 ? 'Maksymalna ilość znaków to 10' : null}
+                    <input name="surname" className='my-profile-data__input' type="text" maxLength={20} minLength="3" onChange={props.handleEditAccountData} defaultValue={props.userSurname}/>
+                    {props.userSurname.length >= 20 ? 
+                     <label htmlFor="" className='edit-error edit-error__text'>Max liczba znaków: 20</label>
+                     : 
+                     null
+                     }
                 </div>
             </div>
             <div className='col-12 my-profile-data'>
                 <div className='col-5 my-profile-data__composition'>
                     <label htmlFor="" className='my-profile-data__label'>Hasło</label>
-                    <input name="password" className='my-profile-data__input' type="text" maxLength='10' minLength="3" onChange={props.handleEditAccountData} defaultValue={props.userPassword} />
-                    {props.userPassword.length >= 10 ? 'Maksymalna ilość znaków to 10' : null}
+                    <input name="password" className='my-profile-data__input' type="password" maxLength='20' minLength="3" onChange={props.handleEditAccountData} defaultValue={props.userPassword} />
+                    {props.userPassword.length >= 20 ? 
+                        <label htmlFor="" className='edit-error edit-error__text'>Max liczba znaków: 20</label>
+                        : 
+                        null
+                    }
                 </div>
-                <div className='col-5 my-profile-data__composition'>
+                {/* <div className='col-5 my-profile-data__composition'>
                     <label htmlFor="" className='my-profile-data__label'>Potwierdź hasło</label>
-                    <input name="passwordConfirm" className='my-profile-data__input' type="password" maxLength='10' minLength="3" onChange={props.handleEditAccountData} defaultValue={props.userPassword} />
-                    {props.userPassword.length >= 10 ? 'Maksymalna ilość znaków to 10' : null}
-                </div>
+                    <input name="passwordConfirm" className='my-profile-data__input' type="password" maxLength='20' minLength="3" onChange={props.handleEditAccountData} defaultValue={props.userPassword} />
+                    {props.userPassword.length >= 20 ? 
+                        <label htmlFor="" className='edit-error edit-error__text'>Max liczba znaków: 20</label>
+                     :
+                        null
+                    }
+                </div> */}
             </div>
+                {/* {props.errorEditPassword ? <div className='col-12 edit-error edit-error__text'>test</div> : null} */}
             <div className='col-12 my-profile-data'>
                 <div className='col-5 my-profile-data__composition'>
                     <label htmlFor="" className='my-profile-data__label'>Numer telefonu</label>
-                    <input name="phoneNumber" className='my-profile-data__input' type="text" maxLength='10' onChange={props.handleEditAccountData} defaultValue={props.userNumberPhone} />
-                    {props.userNumberPhone.length >= 10 ? 'Maksymalna ilość znaków to 9' : null}
+                    <input name="phoneNumber" className='my-profile-data__input' type="text" maxLength='9' onChange={props.handleEditAccountData} defaultValue={props.userNumberPhone} />
+                    {props.userNumberPhone.length >= 10 ? <label htmlFor="" className='edit-error'>Max 9 znaków</label> : null}
                 </div>
             </div>
             {props.isEditInfo ? <div className='saved-info'>Dane zostały zapisane</div> : null}
+            <label htmlFor="" className='edit-error edit-error__text'>*Numer telefonu musi zawierać 9 cyfr, w przeciwnym wypadku dla pola Numer telefonu zostanie przypisany obecny numer</label>
             <div>
                 <button onClick={props.handleSendEditAccountData} className='my-profile-data__edit--button-active'>Zapisz</button>
             </div>
+            
             </div>
         </div>
      );

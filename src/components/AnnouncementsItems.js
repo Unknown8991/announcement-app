@@ -3,7 +3,7 @@ import Announcement from './Announcement';
 
 const AnnouncementsItems = (props) => {
     // Wyświetlenie ogłoszeń pasujących do wpisanej frazy z wyszukiwarki
-    const arraySearchText = props.announcementItems.filter(item => item.title.includes(props.searchText))
+    const arraySearchText = props.announcementItems.filter(item => item.title.toLowerCase().includes(props.searchText.toLowerCase()))
     // console.log(arraySearchText)
     // Wyświetlenie ogłoszeń pasujących do wybranych filtrów oraz wyszukiwań
     
@@ -13,7 +13,7 @@ const AnnouncementsItems = (props) => {
         var bldNumber = element.address ? element.address.bld_number : 'brak';
         var fleet = element.address ? element.address.fleet : 'brak';
         var code = element.address ? element.address.code : 'brak';
-
+        var image = element.image_href ? element.image_href.image : 'AN'
         if(props.allLocalizationFilter === true && props.isFilterActive === true &&
              props.activeFilter !== '' && element.address !== null &&
               element.address.city !== null && props.activeFilter === element.address.city ){
@@ -29,6 +29,7 @@ const AnnouncementsItems = (props) => {
                     bldNumber={bldNumber}
                     fleet={fleet}
                     code={code}
+                    image={image}
                     handleAddToFavourites={props.handleAddToFavourites}
                     handleShowDetails={props.handleShowDetails}
                     isShowDetails={props.isShowDetails}
@@ -49,6 +50,7 @@ const AnnouncementsItems = (props) => {
                     bldNumber={bldNumber}
                     fleet={fleet}
                     code={code}
+                    image={image}
                     handleAddToFavourites={props.handleAddToFavourites}
                     handleShowDetails={props.handleShowDetails}
                     isShowDetails={props.isShowDetails}
@@ -67,6 +69,7 @@ const AnnouncementsItems = (props) => {
                     bldNumber={bldNumber}
                     fleet={fleet}
                     code={code}
+                    image={image}
                     handleAddToFavourites={props.handleAddToFavourites}
                     handleShowDetails={props.handleShowDetails}
                     isShowDetails={props.isShowDetails}
@@ -95,12 +98,12 @@ const AnnouncementsItems = (props) => {
                         <button className='announcement__details--button' onClick={props.handleCloseDetails}>Zamknij</button>
                     </div>
                     <div className='details-position'>
-                    <div className='col-3 details-left'>
+                    {/* <div className='col-3 details-left'>
                         <div className='announcement__details--image'>
                                 An
                         </div>
-                    </div>
-                    <div className='col-9 details-right'>
+                    </div> */}
+                    <div className='col-12 details-right'>
 
                         <div className='announcement__details--title'>
                             {props.dAnnouncementId}. {props.dTitleAnnnouncement}

@@ -18,6 +18,7 @@ const Favourtie = (props) => {
                 </div>
             </div>
             <div className='col-3 announcement announcement__adding-info'>
+                {/* <div onClick={()=>props.handleShowDetails(props.id)}>test</div> */}
             <div className= 'announcement__adding-info--remove-watched' onClick={()=>props.handleRemoveFromWatched(props.id)}>
                         Usuń z obserwowanych
                     </div>

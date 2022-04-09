@@ -22,6 +22,8 @@ const UserView = (props) => {
             userFirstName={props.userFirstName}
             userSurname={props.userSurname}
             userLogin={props.userLogin}
+            countNotify={props.countNotify}
+            handleLogOut={props.handleLogOut}
         />
             {props.statementAddAnnouncement ? 
             <ModalStatementAddAnnouncement />
@@ -36,6 +38,8 @@ const UserView = (props) => {
                 handleSendAnnouncement={props.handleSendAnnouncement}
                 handleUpdateStateAnnouncementForm={props.handleUpdateStateAnnouncementForm}
                 handleCloseForm={props.handleCloseForm}
+                isErrorAnn={props.isErrorAnn}
+                errorAnn={props.errorAnn}
                 /> : null}
                 <div className='col-12 announcement-list'>
                     <AnnouncementsItems 

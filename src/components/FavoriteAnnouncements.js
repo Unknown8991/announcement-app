@@ -8,6 +8,7 @@ const FavoriteAnnouncements = (props) => {
             <FavouriteItems 
                 myFavourites={props.myFavourites}
                 handleRemoveFromWatched={props.handleRemoveFromWatched}
+                handleShowDetails={props.handleShowDetails}
             />
         </div>
      );

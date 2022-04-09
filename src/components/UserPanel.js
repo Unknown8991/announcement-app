@@ -46,6 +46,7 @@ const UserPanel = (props) => {
                                 isEditAccount={props.isEditAccount}
                                 isShowPassword={props.isShowPassword}
                                 isEditInfo={props.isEditInfo}
+                                errorEditPassword={props.errorEditPassword}
                                 handleRunEditAccountData={props.handleRunEditAccountData}
                                 handleCloseEditAccountData={props.handleCloseEditAccountData}
                                 handleEditAccountData={props.handleEditAccountData}
@@ -88,6 +89,7 @@ const UserPanel = (props) => {
                                 <FavoriteAnnouncements
                                     myFavourites={props.myFavourites}
                                     handleRemoveFromWatched={props.handleRemoveFromWatched}
+                                    handleShowDetails={props.handleShowDetails}
                                 /> : null}
                         </div>
                     </div>

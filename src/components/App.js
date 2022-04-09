@@ -40,6 +40,7 @@ state = {
   isCorrectPasswordUser: false, 
   isActivePassword: false,
   allowEntry: false,
+  loginError: '',
   // isCorrectLogin powinien być false (czas developowania true)
   isCorrectLogin: false,
   // isAllowAccess: false,
@@ -47,6 +48,7 @@ state = {
   addAnnouncement: false,
   // szkielet powiadomień
   skeletonNotification: false,
+  countNotify: '',
   // wyszukiwarka
   activeSearch: false,
   searchText: '',
@@ -69,6 +71,7 @@ state = {
   watched:[],
   // formularz announcement
   title:'',
+  image:'',
   description: '',
   location: '',
   city: '',
@@ -87,6 +90,8 @@ state = {
   statementAddAnnouncement: false,
   permissionUser: false,
   idImage:'',
+  isErrorAnn: false,
+  errorAnn: '',
   // panel profilu
   // dane w ustawieniach
   userData:[],
@@ -109,6 +114,7 @@ state = {
   eUserPassword:'',
   eUserPasswordConfirm:'',
   ePhoneNumber: '',
+  errorEditPassword: false,
   // edycja ogłoszenia
   isEditAnnouncement: false,
   eAnnouncementId: '',
@@ -369,35 +375,14 @@ handleLoginInput = (e)=>{
     }
   }
 
-  
-  // if(e.target.name === 'login'){
-  //   const foundUser = arrayUsers.map(element => {
-  //     if(e.target.value  === element.user_name){
-        
-  //       this.setState({
-  //         loginUser: element.user_name,
-  //         idUser: element.user_id,
-  //         isCorrectLoginUser: true,
-  //       })
-  //     } 
-      
-  //     return foundUser
-  //   })
-    
-  // } 
-  // if(e.target.name === 'password'){
-  //   const foundPassword = arrayUsers.filter(element => {
-  //     if(element.password === e.target.value){
-  //       this.setState({
-  //         passwordUser: e.target.value,
-  //         isCorrectPasswordUser: true,
-  //       })
-  //     }
 
-  //     return foundPassword
-  //   })
-  // }
+}
+//
+handleErrorLogin = () =>{
 
+  this.setState({
+    loginError: 'Podany login lub hasło nie jest poprawne'
+  })
 }
 // Funkcja ustawia allowEntry na true jeśli password i login jest poprawny
 checkLogIn = () =>{
@@ -407,6 +392,7 @@ checkLogIn = () =>{
       allowEntry: true,
     })
   }
+
   
     const API = Request.url + 'announcements/';
     fetch(API,{
@@ -415,7 +401,7 @@ checkLogIn = () =>{
     }, true)
     .then(response => response.json())
     .then(data =>{
-      // console.log(data)
+      // console.log(data)announcementItems
       this.setState({
         announcementItems: data
       })
@@ -441,7 +427,20 @@ checkLogIn = () =>{
     })
  
     // Pobranie info o użytkowniku
-    
+    // Statystyka
+    const API2 = Request.url + `statistics/annrelated/${this.state.idUser}`;
+    fetch(API2,{
+      method: 'GET',
+      mode: 'cors'
+    }, true)
+    .then(response => response.json())
+    .then(data =>{
+      console.log(data.count)
+
+      this.setState({
+        countNotify: data.count,
+      })
+    })
 
 }
 // Zmiana stanu przycisku dodającego ogłoszenie
@@ -606,19 +605,36 @@ handleSendAnnouncement = () =>{
           })
         }, 4000)
       }
+    }else if(response.status !== 201){
+      console.log('nie tak')
+
+        this.setState({
+          isErrorAnn: true,
+          errorAnn: 'Formularz nie został wysłany, sprawdź czy pola są poprawnie uzupełnione'
+        })
+        setTimeout(()=>{
+          this.setState({
+            isErrorAnn: false,
+            // errorAnn: 'Formularz nie został wysłany, sprawdź czy pola są poprawnie uzupełnione'
+          })
+        },2000)
+
     }
   })
 .then(data => {
-  console.log('Success:', data);
-  this.setState({
-    title: '',
-    description: '',
-    city: '',
-    street: '',
-    bldNumber: '',
-    fleet: '',
-    code: '',
-  })
+  if(this.state.statementAddAnnouncement ){
+    console.log('Success:', data);
+    this.setState({
+      title: '',
+      description: '',
+      city: '',
+      street: '',
+      bldNumber: '',
+      fleet: '',
+      code: '',
+      idImage:'',
+    })
+  }
 })
 .catch((error) => {
   console.error('Error:', error);
@@ -645,6 +661,7 @@ handleSendAnnouncement = () =>{
 handleCloseForm = () =>{
   this.setState({
     addAnnouncement: false,
+    isErrorAnn: false,
   })
 }
 // Uruchomienie wyszukiwarki
@@ -1056,21 +1073,21 @@ handleRemoveFromWatched = (id)=>{
   console.log(id)
   const arr = [...this.state.announcementItems]
   // const API = Request.url + `favourites/user/${this.state.idUser}`
-  const API = Request.url + `favourites`
+  const API = Request.url + `favourites/`
   console.log(API)
   this.setState({
     idRemoveWatchedAnnouncement: id,
   })
   const data ={
     "user_id": this.state.idUser,
-    "announcement_id": "10",
+    "announcement_id": id,
   }
   fetch(API,{
     method: 'DELETE',
-    // mode: 'cors',
-    // headers:{
-    //   'Content-Type': 'application/json',
-    // },
+    mode: 'cors',
+    headers:{
+      'Content-Type': 'application/json',
+    },
     body:JSON.stringify(data)
   }, true)
   .then(response =>{
@@ -1086,8 +1103,24 @@ handleRemoveFromWatched = (id)=>{
       })
       // console.log(data)
     }) 
+    const API3 = Request.url + `favourites/user/${this.state.idUser}`;
+    fetch(API3,{
+      method: 'GET',
+      mode: 'cors'
+    },true)
+    .then(response => response.json())
+    .then(data =>{
+      // console.log(data)
+      const array = data;
+      // console.log(array.announcement_id)
+      const idWatched = array.map(item => item.announcement_id)
+      // console.log(idWatched)
+      this.setState({
+        watched: idWatched
+      })
+    })
   })
-  .then(response => response.json())
+  // .then(response => response.json())
   .then(data =>console.log(data))
 }
 // Uruchomienie edycji danych konta uzytkownika
@@ -1144,19 +1177,31 @@ handleEditAccountData = (e) =>{
     })
   }
   if(e.target.name === "password"){
-    this.setState({
-      passwordUser: e.target.value
-    })
+
+      this.setState({
+        passwordUser: e.target.value,
+        errorEditPassword: false,
+      })
+
   }
   if(e.target.name === "passwordConfirm"){
-    this.setState({
-      eUserPasswordConfirm: e.target.value
-    })
+
+      this.setState({
+        eUserPasswordConfirm: e.target.value,
+        // errorEditPassword: false,
+      })
+    
+
+    // this.setState({
+    //   eUserPasswordConfirm: e.target.value
+    // })
   }
   if(e.target.name === "phoneNumber"){
-    this.setState({
-      phoneNumber: e.target.value
-    })
+    if(e.target.value.length === 9){
+      this.setState({
+        phoneNumber: e.target.value
+      })
+    }
   }
 
 }
@@ -1168,7 +1213,7 @@ handleSendEditAccountData = ()=>{
         const url = Request.url + `users/${this.state.idUser}`
         console.log(url)
   
-  
+
         const data ={
           "user_name": this.state.loginUser,
           "first_name": this.state.firstName,
@@ -1379,6 +1424,111 @@ handleShowSkeletonNotification = () =>{
     skeletonNotification: !this.state.skeletonNotification,
   })
 }
+handleLogOut = () =>{
+  console.log('wologuj')
+  this.setState({
+
+  modalNotifi: '',
+  isRegister: false,
+  rActiveOne: true,
+  rActiveTwo: false,
+  rActiveThree: false,
+  rName: '',
+  rSurname:'',
+  rPhoneNumber:'',
+  rLogin:'',
+  rPassword:'',
+  rUserType: 1,
+  isCorrectRegister: false,
+  rLowerLogin: '',
+  rNotify:'',
+  loginUser:'',
+  passwordUser:'',
+  idUser:'',
+  firstName: '',
+  lastName: '',
+  phoneNumber: '',
+  userTypeId:'',
+  isCorrectLoginUser: false, 
+  isCorrectPasswordUser: false, 
+  isActivePassword: false,
+  allowEntry: false,
+  loginError: '',
+  isCorrectLogin: false,
+  announcementItems:[],
+  addAnnouncement: false,
+  skeletonNotification: false,
+  countNotify: '',
+  activeSearch: false,
+  searchText: '',
+  isFilterActive: false,
+  activeFilter: '',
+  allLocalizationFilter: false,
+  isUndefined: false,
+  isShowDetails: false,
+  dAnnouncementId:null,
+  dTitleAnnnouncement:'',
+  dDescriptionAnnnouncement:'',
+  dEndDat:'',
+  dLocation: '',
+  dphoneNumber: '',
+  isWatched: false,
+  watched:[],
+  title:'',
+  description: '',
+  location: '',
+  city: '',
+  street: '',
+  bldNumber: '',
+  fleet: '',
+  code: '',
+  photo: '',
+  sendingPhoto: [],
+  addressId: null,
+  lmDat:'',
+  endDat:'',
+  status:1,
+  type:null,
+  isFormAnnouncementCorrect: false,
+  statementAddAnnouncement: false,
+  permissionUser: false,
+  idImage:'',
+  isErrorAnn: false,
+  errorAnn: '',
+  userData:[],
+  myAnnouncements:[],
+  myFavourites:[],
+  isActiveOptionOne: true,
+  isActiveOptionTwo: false,
+  isActiveOptionThree: false,
+  showModalDelete: false,
+  isConfirmDelete: false,
+  isDeleteAnnouncement: false,
+  exitConfirmDelete: false,
+  idDelete: '',
+  isEditAccount: false,
+  isShowPassword: false,
+  isEditInfo: false,
+  eUserName:'',
+  eUserSurname:'',
+  eUserPassword:'',
+  eUserPasswordConfirm:'',
+  ePhoneNumber: '',
+  errorEditPassword: false,
+  isEditAnnouncement: false,
+  eAnnouncementId: '',
+  eUserId: '',
+  eTitleAnnouncement: '',
+  eDescriptionAnnouncement: '',
+  eCityAnnouncement: '',
+  eStreetAnnouncement: '',
+  eFleetAnnouncement: '',
+  eBldNumberAnnouncement: '',
+  eCodeAnnouncement: '',
+  idRemoveWatchedAnnouncement: '',
+  })
+  this.handleGetUserData();
+}
 
 // Do poprawki jeszcze
 componentDidMount () {
@@ -1416,6 +1566,8 @@ componentDidMount () {
                   rLogin={this.state.rLogin}
                   rPassword={this.state.rPassword}
                   rLowerLogin={this.state.rLowerLogin}
+                  loginError={this.state.loginError}
+                  handleErrorLogin={this.handleErrorLogin}
                   handleChangeTypeUser={this.handleChangeTypeUser}
                   handleCreateNewAccount={this.handleCreateNewAccount}
                   handleCheckRegisterInput={this.handleCheckRegisterInput}
@@ -1429,7 +1581,7 @@ componentDidMount () {
               }
               />
     
-              {this.state.idUser ===1 ?
+              {this.state.idUser === 1 ?
               <Route path='adminView' element={
                   <AdminView/>
               }/>
@@ -1461,6 +1613,10 @@ componentDidMount () {
                     userFirstName={this.state.firstName}
                     userSurname={this.state.lastName}
                     userLogin={this.state.loginUser}
+                    isErrorAnn={this.state.isErrorAnn}
+                    errorAnn={this.state.errorAnn}
+                    countNotify={this.state.countNotify}
+                    handleLogOut={this.handleLogOut}
                     handleActiveSearch={this.handleActiveSearch}
                     handleChangeForm={this.handleChangeForm}
                     handleInputAnnouncement={this.handleInputAnnouncement}
@@ -1526,7 +1682,6 @@ componentDidMount () {
                 eCodeAnnouncement={this.state.eCodeAnnouncement}
                 phoneNumber={this.state.phoneNumber}
                 isEditAnnouncement={this.state.isEditAnnouncement}
-                // 
                 title={this.state.title}
                 description={this.state.description}
                 city={this.state.city}
@@ -1534,8 +1689,7 @@ componentDidMount () {
                 bldNumber={this.state.bldNumber}
                 fleet={this.state.fleet}
                 code={this.state.code}
-                
-                
+                errorEditPassword={this.state.errorEditPassword}
                 handleDeleteAnnouncements={this.handleDeleteAnnouncements}
                 changeActiveProfilOption={this.handleChangeActiveProfilOption}
                 handleConfirmDeleteAnnouncement={this.handleConfirmDeleteAnnouncement}
@@ -1550,6 +1704,7 @@ componentDidMount () {
                 handleEditAnnouncement={this.handleEditAnnouncement}
                 handleChangeEditAnnouncement={this.handleChangeEditAnnouncement}
                 handleSendEditAnnouncement={this.handleSendEditAnnouncement}
+                handleShowDetails={this.handleShowDetails}
               />}
               />
             </Routes>

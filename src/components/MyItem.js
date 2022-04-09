@@ -19,10 +19,10 @@ const MyItem = (props) => {
         <div className='col-2 announcement announcement__adding-info'>
         <div className='col-12 announcement-favourite'>
                     <div className='announcement__adding-info--delete' onClick={()=>props.handleEditAnnouncement(props.id)}>
-                        E
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
                     </div>
                     <div className='announcement__adding-info--favourite' onClick={()=>props.handleDeleteAnnouncements(props.id)}>
-                        D
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </div>
                 </div>
             <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div> 

@@ -20,6 +20,7 @@ const FavouriteItems = (props) => {
                 fleet={fleet}
                 code={code}
                 handleRemoveFromWatched={props.handleRemoveFromWatched}
+                handleShowDetails={props.handleShowDetails}
             />    
         )
     }

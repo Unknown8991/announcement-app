@@ -12,7 +12,9 @@ const HeaderForUserPanel = (props) => {
            </div>
 
            <div className='header-block' >
-           <Link to="/profil" className='header-block--link'>P</Link>
+           <Link to="/profil" className='header-block--link icons-center'>
+           <i className="fa fa-user icons-center" aria-hidden="true"></i>
+            </Link>
            {/* onClick={props.getUserData} */}
            </div>
        </div> 
