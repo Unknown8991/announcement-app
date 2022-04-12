@@ -14,6 +14,7 @@ const FavouriteItems = (props) => {
                 id={element.announcement_id}
                 title={element.title}
                 description={element.description}
+                adddate={element.adddate}
                 city={city}
                 street={street}
                 bldNumber={bldNumber}

@@ -22,7 +22,8 @@ const Favourtie = (props) => {
             <div className= 'announcement__adding-info--remove-watched' onClick={()=>props.handleRemoveFromWatched(props.id)}>
                         Usuń z obserwowanych
                     </div>
-                <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div> 
+                {/* <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div>  */}
+                <div className='announcement__adding-info--date'>Data dodania: {props.adddate.substr(0,10)}</div> 
                 {/* <div className='announcement__adding-info--date'>Data zakończenia: 01.02.2022</div>  */}
                 <div className='announcement__adding-info--location'>Lokalizacja: {props.city}</div>
             </div>

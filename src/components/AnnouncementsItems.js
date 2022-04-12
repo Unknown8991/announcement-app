@@ -35,6 +35,7 @@ const AnnouncementsItems = (props) => {
                     isShowDetails={props.isShowDetails}
                     isWatched={props.isWatched}
                     watched={props.watched}
+                    adddat={element.adddate}
                 />)
 
             }
@@ -56,6 +57,7 @@ const AnnouncementsItems = (props) => {
                     isShowDetails={props.isShowDetails}
                     isWatched={props.isWatched}
                     watched={props.watched}
+                    adddat={element.adddate}
                 />)
             } else if(props.activeFilter === '' && element.address === null){
             return(
@@ -75,6 +77,7 @@ const AnnouncementsItems = (props) => {
                     isShowDetails={props.isShowDetails}
                     isWatched={props.isWatched}
                     watched={props.watched}
+                    adddat={element.adddate}
             />
             )
         }

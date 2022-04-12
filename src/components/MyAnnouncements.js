@@ -32,6 +32,7 @@ const MyAnnouncements = (props) => {
                 fleet={props.fleet}
                 code={props.code}
                 isEditInfo={props.isEditInfo}
+                // adddate={}
             />
             {props.showModalDelete ?
                 <ConfirmationAction

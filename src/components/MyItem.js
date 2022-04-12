@@ -25,7 +25,8 @@ const MyItem = (props) => {
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </div>
                 </div>
-            <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div> 
+            {/* <div className='announcement__adding-info--date'>Data dodania: 01.02.2022</div>  */}
+            <div className='announcement__adding-info--date'>Data dodania: {props.adddate.substr(0,10)}</div> 
             {/* <div className='announcement__adding-info--date'>Data zakończenia: 01.02.2022</div>  */}
             <div className='announcement__adding-info--location'>Lokalizacja: {props.city}</div>
         </div>

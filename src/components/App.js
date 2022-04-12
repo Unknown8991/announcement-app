@@ -79,6 +79,7 @@ state = {
   bldNumber: '',
   fleet: '',
   code: '',
+  dateNow: '',
   photo: '',
   sendingPhoto: [],
   addressId: null,
@@ -445,8 +446,11 @@ checkLogIn = () =>{
 }
 // Zmiana stanu przycisku dodającego ogłoszenie
 handleAddAnnouncement = () =>{
+    const now = new Date();
+  console.log(now) 
   this.setState({
     addAnnouncement: !this.state.addAnnouncement,
+    dateNow: now,
   })
 }
 // Obsługa formularza dodawania ogłoszeń
@@ -546,12 +550,19 @@ handleUpdateStateAnnouncementForm = ()=>{
 }
 // Wysłanie formularza z ogłoszeniem
 handleSendAnnouncement = () =>{
+
+  // const date = new Date();
+  // console.log(date) 
+
+
+
   const data={
  
           "user_id": this.state.idUser,
           "title": this.state.title,
           "description": this.state.description,
-          "adddate": "2022-01-01T09:46:09.541Z",
+          // "adddate": "2022-01-01T09:46:09.541Z",
+          "adddate": this.state.dateNow,
           "is_del": "False",
           "lm_dat": "2022-01-01T09:46:09.541Z",
           "end_dat": "2022-03-01T09:46:09.541Z",
@@ -1533,6 +1544,23 @@ handleLogOut = () =>{
 // Do poprawki jeszcze
 componentDidMount () {
   this.handleGetUserData();
+
+  // let start = Date.now()
+  // console.log(start)
+  // var date = new Date(start)
+  // console.log(date.getTime())
+  // console.log(date)
+
+  // let timestamp = Math.round(new Date().getTime()/1000);
+  // console.log(test)
+  // var dateObj = new Date(timestamp)
+  // let month = date.getMonth() + 1;
+  // let year = date.getFullYear();
+  // let date = date.getDate();
+  // console.log(`${month}`)
+
+  let today = new Date()
+  console.log(today)
 }
 
   render() {
